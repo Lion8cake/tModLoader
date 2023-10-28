@@ -83,6 +83,64 @@ public abstract class ModSurfaceBackgroundStyle : ModBackgroundStyle
 	}
 }
 
+public abstract class ModUnderworldBackgroundStyle : ModBackgroundStyle
+{
+	protected override sealed void Register()
+	{
+		Slot = LoaderManager.Get<UnderworldBackgroundStylesLoader>().Register(this);
+	}
+
+	public sealed override void SetupContent() => SetStaticDefaults();
+
+	/// <summary>
+	/// Allows you to determine which texture is drawn in the very back of the background. BackgroundTextureLoader.GetBackgroundSlot may be useful here, as well as for the other texture-choosing hooks.
+	/// </summary>
+	public virtual int ChooseFarTexture()
+	{
+		return -1;
+	}
+
+	/// <summary>
+	/// Allows you to determine which texture is drawn in the middle of the background.
+	/// </summary>
+	public virtual int ChooseMiddleTexture()
+	{
+		return -1;
+	}
+
+	/// <summary>
+	/// Gives you complete freedom over how the closest part of the background is drawn. Return true for ChooseCloseTexture to have an effect; return false to disable tModLoader's own code for drawing the close background.
+	/// </summary>
+	public virtual bool PreDrawUnderworldBackground(SpriteBatch spriteBatch)
+	{
+		return true;
+	}
+
+	/// <summary>
+	/// Allows you to determine which texture is drawn in the closest part of the background. This also lets you modify the scale and parallax (as well as two unfortunately-unknown parameters).
+	/// </summary>
+	public virtual int ChooseCloseTexture()
+	{
+		return -1;
+	}
+
+	/// <summary>
+	/// Allows you to determine which texture is drawn in the closest part of the background. This also lets you modify the scale and parallax (as well as two unfortunately-unknown parameters).
+	/// </summary>
+	public virtual int ChooseClose2Texture()
+	{
+		return -1;
+	}
+
+	/// <summary>
+	/// Allows you to determine which texture is drawn in the closest part of the background. This also lets you modify the scale and parallax (as well as two unfortunately-unknown parameters).
+	/// </summary>
+	public virtual int ChooseClose3Texture()
+	{
+		return -1;
+	}
+}
+
 /// <summary>
 /// This class serves to collect functions that operate on any kind of background style, without being specific to one single background style.
 /// </summary>

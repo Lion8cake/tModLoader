@@ -24,6 +24,11 @@ public abstract partial class ModSceneEffect : ModType
 	public virtual ModSurfaceBackgroundStyle SurfaceBackgroundStyle => null;
 
 	/// <summary>
+	/// The ModUnderworldBackgroundStyle that will draw its background when the player is on the surface.
+	/// </summary>
+	public virtual ModUnderworldBackgroundStyle UnderworldBackgroundStyle => null;
+
+	/// <summary>
 	/// The ModUndergroundBackgroundStyle that will draw its background when the player is underground.
 	/// </summary>
 	public virtual ModUndergroundBackgroundStyle UndergroundBackgroundStyle => null;

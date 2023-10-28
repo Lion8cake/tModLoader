@@ -5604,6 +5604,44 @@
  	}
  
  	private static void PostDrawMenu(Microsoft.Xna.Framework.Point screenSizeCache, Microsoft.Xna.Framework.Point screenSizeCacheAfterScaling)
+@@ -43171,11 +_,35 @@
+ 	protected void DrawUnderworldBackground(bool flat)
+ 	{
+ 		if (!(screenPosition.Y + (float)screenHeight < (float)(maxTilesY - 220) * 16f)) {
++			int num2 = 1;
++			LoaderManager.Get<UnderworldBackgroundStylesLoader>().ChooseStyle(out var modBG, out var priority);
++
++			if (priority >= SceneEffectPriority.Environment) {
++				num2 = modBG;
++			}
++			else if (priority >= SceneEffectPriority.BiomeHigh) {
++				num2 = modBG;
++			}
++			else if (priority >= SceneEffectPriority.BiomeMedium) {
++				num2 = modBG;
++			}
++			else if (priority >= SceneEffectPriority.BiomeLow) {
++				num2 = modBG;
++			}
++			else {
++				num2 = 1;
++			}
++
+ 			Vector2 screenOffset = screenPosition + new Vector2(screenWidth >> 1, screenHeight >> 1);
+ 			float pushUp = (GameViewMatrix.Zoom.Y - 1f) * 0.5f * 200f;
+ 			SkyManager.Instance.ResetDepthTracker();
++			if (num2 > 1) {
++				LoaderManager.Get<UnderworldBackgroundStylesLoader>().DrawUnderworldBackground(flat, screenOffset, pushUp, num2);
++			}
++			else {
+-			for (int num = 4; num >= 0; num--) {
++				for (int num = 4; num >= 0; num--) {
+-				DrawUnderworldBackgroudLayer(flat, screenOffset, pushUp, num);
++					DrawUnderworldBackgroudLayer(flat, screenOffset, pushUp, num);
++				}
+ 			}
+ 
+ 			if (!mapFullscreen)
 @@ -43330,9 +_,17 @@
  		float value = (float)((double)(screenPosition.Y - (float)(screenHeight / 2) + 200f) - rockLayer * 16.0) / 300f;
  		value = MathHelper.Clamp(value, 0f, 1f);

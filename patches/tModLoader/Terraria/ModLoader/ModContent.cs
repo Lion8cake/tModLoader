@@ -199,6 +199,11 @@ public static class ModContent
 	public static ModSurfaceBackgroundStyle GetModSurfaceBackgroundStyle(int style) => LoaderManager.Get<SurfaceBackgroundStylesLoader>().Get(style);
 
 	/// <summary>
+	/// Returns the ModSurfaceBackgroundStyle object with the given ID.
+	/// </summary>
+	public static ModUnderworldBackgroundStyle GetModUnderworldBackgroundStyle(int style) => LoaderManager.Get<UnderworldBackgroundStylesLoader>().Get(style);
+
+	/// <summary>
 	/// Returns the ModUndergroundBackgroundStyle object with the given ID.
 	/// </summary>
 	public static ModUndergroundBackgroundStyle GetModUndergroundBackgroundStyle(int style) => LoaderManager.Get<UndergroundBackgroundStylesLoader>().Get(style);

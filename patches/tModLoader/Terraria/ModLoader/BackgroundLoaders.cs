@@ -338,6 +338,167 @@ public class SurfaceBackgroundStylesLoader : SceneEffectLoader<ModSurfaceBackgro
 	}
 }
 
+[Autoload(Side = ModSide.Client)]
+public class UnderworldBackgroundStylesLoader : SceneEffectLoader<ModUnderworldBackgroundStyle>
+{
+	public const int VanillaUnderworldBackgroundStylesCount = 1;
+
+	public UnderworldBackgroundStylesLoader()
+	{
+		Initialize(VanillaUnderworldBackgroundStylesCount);
+	}
+
+	public override void ChooseStyle(out int style, out SceneEffectPriority priority)
+	{
+		priority = SceneEffectPriority.None;
+		style = -1;
+
+		if (!loaded || !GlobalBackgroundStyleLoader.loaded) {
+			return;
+		}
+
+		int playerUnderworldBackground = Main.LocalPlayer.CurrentSceneEffect.underworldBackground.value;
+
+		if (playerUnderworldBackground >= VanillaCount) {
+			style = playerUnderworldBackground;
+			priority = Main.LocalPlayer.CurrentSceneEffect.underworldBackground.priority;
+		}
+	}
+
+	public void DrawUnderworldBackground(bool flat, Vector2 screenOffset, float pushUp, int style)
+	{
+		var uwBackgroundStyle = Get(style);
+
+		if (uwBackgroundStyle == null || !uwBackgroundStyle.PreDrawUnderworldBackground(Main.spriteBatch)) {
+			return;
+		}
+
+		Main.bgScale = 1.25f;
+		Main.instance.bgParallax = 0.37;
+
+		int textureSlot0 = uwBackgroundStyle.ChooseCloseTexture();
+		int textureSlot1 = uwBackgroundStyle.ChooseClose2Texture();
+		int textureSlot2 = uwBackgroundStyle.ChooseClose3Texture();
+		int textureSlot3 = uwBackgroundStyle.ChooseMiddleTexture();
+		int textureSlot4 = uwBackgroundStyle.ChooseFarTexture();
+
+		if (textureSlot < 0 || textureSlot >= TextureAssets.Background.Length) {
+			return;
+		}
+
+		Asset<Texture2D> asset = TextureAssets.Background[textureSlot0].Value;
+		if (!asset.IsLoaded)
+			Assets.Request<Texture2D>(asset.Name);
+
+		Texture2D value = asset.Value;
+		Vector2 vec = new Vector2(value.Width, value.Height) * 0.5f;
+		float num2 = (flat ? 1f : ((float)(layerTextureIndex * 2) + 3f));
+		Vector2 vector = new Vector2(1f / num2);
+		Microsoft.Xna.Framework.Rectangle value2 = new Microsoft.Xna.Framework.Rectangle(0, 0, value.Width, value.Height);
+		float num3 = 1.3f;
+		Vector2 zero = Vector2.Zero;
+		int num4 = 0;
+		switch (num) {
+			case 1: {
+				int num9 = (int)(GlobalTimeWrappedHourly * 8f) % 4;
+				value2 = new Microsoft.Xna.Framework.Rectangle((num9 >> 1) * (value.Width >> 1), num9 % 2 * (value.Height >> 1), value.Width >> 1, value.Height >> 1);
+				vec *= 0.5f;
+				zero.Y += 175f;
+				break;
+			}
+			case 2:
+				zero.Y += 100f;
+				break;
+			case 3:
+				zero.Y += 75f;
+				break;
+			case 4:
+				num3 = 0.5f;
+				zero.Y -= 0f;
+				break;
+			/*case 5:
+				zero.Y += num4;
+				break;
+			case 6: {
+				int num8 = (int)(GlobalTimeWrappedHourly * 8f) % 4;
+				value2 = new Microsoft.Xna.Framework.Rectangle(num8 % 2 * (value.Width >> 1), (num8 >> 1) * (value.Height >> 1), value.Width >> 1, value.Height >> 1);
+				vec *= 0.5f;
+				zero.Y += num4;
+				zero.Y += -60f;
+				break;
+			}
+			case 7: {
+				int num7 = (int)(GlobalTimeWrappedHourly * 8f) % 4;
+				value2 = new Microsoft.Xna.Framework.Rectangle(num7 % 2 * (value.Width >> 1), (num7 >> 1) * (value.Height >> 1), value.Width >> 1, value.Height >> 1);
+				vec *= 0.5f;
+				zero.Y += num4;
+				zero.X -= 400f;
+				zero.Y += 90f;
+				break;
+			}
+			case 8: {
+				int num6 = (int)(GlobalTimeWrappedHourly * 8f) % 4;
+				value2 = new Microsoft.Xna.Framework.Rectangle(num6 % 2 * (value.Width >> 1), (num6 >> 1) * (value.Height >> 1), value.Width >> 1, value.Height >> 1);
+				vec *= 0.5f;
+				zero.Y += num4;
+				zero.Y += 90f;
+				break;
+			}
+			case 9:
+				zero.Y += num4;
+				zero.Y -= 30f;
+				break;
+			case 10:
+				zero.Y += 250f * num2;
+				break;
+			case 11:
+				zero.Y += 100f * num2;
+				break;
+			case 12:
+				zero.Y += 20f * num2;
+				break;
+			case 13: {
+				zero.Y += 20f * num2;
+				int num5 = (int)(GlobalTimeWrappedHourly * 8f) % 4;
+				value2 = new Microsoft.Xna.Framework.Rectangle(num5 % 2 * (value.Width >> 1), (num5 >> 1) * (value.Height >> 1), value.Width >> 1, value.Height >> 1);
+				vec *= 0.5f;
+				break;
+			}*/
+		}
+
+		if (flat)
+			num3 *= 1.5f;
+
+		vec *= num3;
+		SkyManager.Instance.DrawToDepth(spriteBatch, 1f / vector.X);
+		if (flat)
+			zero.Y += (float)(TextureAssets.Underworld[0].Height() >> 1) * 1.3f - vec.Y;
+
+		zero.Y -= pushUp;
+		float num10 = num3 * (float)value2.Width;
+		int num11 = (int)((float)(int)(screenOffset.X * vector.X - vec.X + zero.X - (float)(screenWidth >> 1)) / num10);
+		vec = vec.Floor();
+		int num12 = (int)Math.Ceiling((float)screenWidth / num10);
+		int num13 = (int)(num3 * ((float)(value2.Width - 1) / vector.X));
+		Vector2 vec2 = (new Vector2((num11 - 2) * num13, (float)UnderworldLayer * 16f) + vec - screenOffset) * vector + screenOffset - screenPosition - vec + zero;
+		vec2 = vec2.Floor();
+		while (vec2.X + num10 < 0f) {
+			num11++;
+			vec2.X += num10;
+		}
+
+		for (int i = num11 - 2; i <= num11 + 4 + num12; i++) {
+			spriteBatch.Draw(value, vec2, value2, Microsoft.Xna.Framework.Color.White, 0f, Vector2.Zero, num3, SpriteEffects.None, 0f);
+			if (layerTextureIndex == 0) {
+				int num14 = (int)(vec2.Y + (float)value2.Height * num3);
+				spriteBatch.Draw(TextureAssets.BlackTile.Value, new Microsoft.Xna.Framework.Rectangle((int)vec2.X, num14, (int)((float)value2.Width * num3), Math.Max(0, screenHeight - num14)), new Microsoft.Xna.Framework.Color(11, 3, 7));
+			}
+
+			vec2.X += num10;
+		}
+	}
+}
+
 internal static class GlobalBackgroundStyleLoader
 {
 	internal static readonly IList<GlobalBackgroundStyle> globalBackgroundStyles = new List<GlobalBackgroundStyle>();

@@ -33,6 +33,7 @@ public class SceneEffectLoader : Loader<ModSceneEffect>
 		public PrioritizedPair waterStyle;
 		public PrioritizedPair undergroundBackground;
 		public PrioritizedPair surfaceBackground;
+		public PrioritizedPair underworldBackground;
 		public PrioritizedPair music;
 		public string mapBackground;
 		public CaptureBiome.TileColorStyle tileColorStyle;
@@ -41,7 +42,7 @@ public class SceneEffectLoader : Loader<ModSceneEffect>
 
 		public SceneEffectInstance()
 		{
-			waterStyle = undergroundBackground = surfaceBackground = music = biomeTorchItemType = biomeCampfireItemType = PrioritizedPair.Default;
+			waterStyle = undergroundBackground = surfaceBackground = underworldBackground = music = biomeTorchItemType = biomeCampfireItemType = PrioritizedPair.Default;
 			tileColorStyle = CaptureBiome.TileColorStyle.Normal;
 			mapBackground = null;
 		}
@@ -108,6 +109,12 @@ public class SceneEffectLoader : Loader<ModSceneEffect>
 			if (result.surfaceBackground.priority == 0 && sceneEffect.SurfaceBackgroundStyle != null) {
 				result.surfaceBackground.value = sceneEffect.SurfaceBackgroundStyle.Slot;
 				result.surfaceBackground.priority = sceneEffect.Priority;
+				sceneEffectFields++;
+			}
+
+			if (result.underworldBackground.priority == 0 && sceneEffect.UnderworldBackgroundStyle != null) {
+				result.underworldBackground.value = sceneEffect.UnderworldBackgroundStyle.Slot;
+				result.underworldBackground.priority = sceneEffect.Priority;
 				sceneEffectFields++;
 			}
 
