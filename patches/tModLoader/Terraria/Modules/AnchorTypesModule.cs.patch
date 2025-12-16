@@ -1,0 +1,33 @@
+--- src/TerrariaNetCore/Terraria/Modules/AnchorTypesModule.cs
++++ src/tModLoader/Terraria/Modules/AnchorTypesModule.cs
+@@ -7,6 +_,7 @@
+ 	public int[] tileValid;
+ 	public int[] tileInvalid;
+ 	public int[] tileAlternates;
++	public bool[][] setAlternates; // Added by TML
+ 	public int[] wallValid;
+ 
+ 	public AnchorTypesModule(AnchorTypesModule copyFrom = null)
+@@ -15,6 +_,7 @@
+ 			tileValid = null;
+ 			tileInvalid = null;
+ 			tileAlternates = null;
++			setAlternates = null;
+ 			wallValid = null;
+ 			return;
+ 		}
+@@ -41,6 +_,14 @@
+ 		else {
+ 			tileAlternates = new int[copyFrom.tileAlternates.Length];
+ 			Array.Copy(copyFrom.tileAlternates, tileAlternates, tileAlternates.Length);
++		}
++
++		if (copyFrom.setAlternates == null) {
++			setAlternates = null;
++		}
++		else {
++			setAlternates = new int[copyFrom.setAlternates.Length];
++			Array.Copy(copyFrom.setAlternates, setAlternates, setAlternates.Length);
+ 		}
+ 
+ 		if (copyFrom.wallValid == null) {

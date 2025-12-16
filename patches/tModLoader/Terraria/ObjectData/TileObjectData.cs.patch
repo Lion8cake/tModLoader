@@ -88,6 +88,41 @@
  		get {
  			if (_alternates == null)
  				return _baseObject.Alternates;
+@@ -327,6 +_,34 @@
+ 		}
+ 	}
+ 
++	public bool[][] AnchorAlternateSets {
++		get {
++			if (_anchorTiles == null)
++				return _baseObject.AnchorAlternateSets;
++
++			return _anchorTiles.setAlternates;
++		}
++		set {
++			WriteCheck();
++			if (!_hasOwnAnchorTiles) {
++				_hasOwnAnchorTiles = true;
++				_anchorTiles = new AnchorTypesModule(_anchorTiles);
++			}
++
++			_anchorTiles.setAlternates = value;
++			if (!_linkedAlternates)
++				return;
++
++			for (int i = 0; i < _alternates.data.Count; i++) {
++				bool[][] setAlternates = value;
++				if (value != null)
++					setAlternates = (bool[][])value.Clone();
++
++				_alternates.data[i].AnchorAlternateSets = setAlternates;
++			}
++		}
++	}
++
+ 	public int[] AnchorValidWalls {
+ 		get {
+ 			if (_anchorTiles == null)
 @@ -531,7 +_,7 @@
  		}
  	}
@@ -163,6 +198,42 @@
  					if (WaterPlacement == LiquidPlacement.NotAllowed)
  						return false;
  					if (WaterPlacement == LiquidPlacement.OnlyInFullLiquid && checkTile.liquid != byte.MaxValue)
+@@ -1481,13 +_,28 @@
+ 			return false;
+ 
+ 		int[] tileAlternates = _anchorTiles.tileAlternates;
+-		if (tileAlternates == null)
+-			return false;
+-
+-		for (int i = 0; i < tileAlternates.Length; i++) {
+-			if (type == tileAlternates[i])
+-				return true;
+-		}
++		if (tileAlternates != null) {
++			for (int i = 0; i < tileAlternates.Length; i++) {
++				if (type == tileAlternates[i])
++					return true;
++			}
++		}
++
++		bool[][] setAlternates = _anchorTiles.setAlternates;
++		if (setAlternates != null) {
++			int[] tileInvalid = _anchorTiles.tileInvalid;
++			if (tileInvalid != null) {
++				for (int i = 0; i < tileInvalid.Length; i++) {
++					if (type == tileInvalid[i])
++						return false;
++				}
++			}
++			for (int i = 0; i < setAlternates.Length; i++) {
++				if (setAlternates[i][type])
++					return true;
++			}
++		}
++
+ 
+ 		return false;
+ 	}
 @@ -1510,14 +_,14 @@
  		newTile = new TileObjectData(_baseObject);
  	}

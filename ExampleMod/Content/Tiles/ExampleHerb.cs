@@ -58,8 +58,10 @@ namespace ExampleMod.Content.Tiles
 			};
 			TileObjectData.newTile.AnchorAlternateTiles = new int[] {
 				TileID.ClayPot,
-				TileID.PlanterBox,
-				ModContent.TileType<ExamplePlanterBox>()
+				TileID.PlanterBox
+			};
+			TileObjectData.newTile.AnchorAlternateSets = new bool[][] {
+				TileID.Sets.PlanterBoxes
 			};
 			TileObjectData.addTile(Type);
 
