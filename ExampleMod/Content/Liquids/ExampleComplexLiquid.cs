@@ -20,7 +20,6 @@ namespace ExampleMod.Content.Liquids
 		public override void SetStaticDefaults() {
 			LiquidRenderer.WATERFALL_LENGTH[Type] = 3;
 			LiquidRenderer.DEFAULT_OPACITY[Type] = 0.75f;
-			SlopeOpacity = 0.8f;
 			LiquidRenderer.VISCOSITY_MASK[Type] = 200;
 			FallDelay = 5;
 			SplashSound = SoundID.Splash;
@@ -154,13 +153,13 @@ namespace ExampleMod.Content.Liquids
 
 		//Similarly to RetroDrawEffects, we use PreSlopeDraw to edit the rendering of slopes to also modify the color to be rainbow too
 		//As of oct 1st 2025, slopes are only really used for retro rendering so we only change the color simialrly to retro lighting to make slopes not look out of place
-		public override bool PreSlopeDraw(int i, int j, bool behindBlocks, ref Vector2 drawPosition, ref Rectangle liquidSize, ref VertexColors colors) {
+		public override bool PreSlopeDraw(bool behindBlocks, ref Vector2 drawPosition, ref Rectangle liquidSize, ref VertexColors colors) {
 			SetComplexLiquidVertexColors(ref colors, 1f);
 			return true;
 		}
 
 		//Here with UpdateLiquid, we use this method to make our liquid evaporate when in the ocean biome
-		public override bool UpdateLiquid(int i, int j, Liquid liquid) {
+		public override bool PreUpdateLiquid(int i, int j, Liquid liquid) {
 			//Firstly we check if the liquid both has more than 0 liquid amount, and is in the ocean biome part of the world
 			if ((i < WorldGen.beachDistance || i > Main.maxTilesX - WorldGen.beachDistance) && Main.tile[i, j].LiquidAmount > 0) {
 				byte evaporateAmount = 2; //the amount of liquid removed each frame

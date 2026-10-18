@@ -4318,17 +4318,14 @@
  		if (Main.myPlayer == whoAmI) {
  			if (accMerman) {
  				if (flag)
-@@ -18899,7 +_,23 @@
+@@ -18899,7 +_,20 @@
  			}
  		}
  
 +		bool? canEmitBreath = null;
 +		for (int i = 0; i < LiquidLoader.LiquidCount; i++) {
 +			if (wets[i]) {
-+				canEmitBreath = LiquidLoader.PlayersEmitBreathBubbles(i);
-+				if (canEmitBreath == null && i >= LiquidID.Count) {
-+						canEmitBreath = LiquidLoader.GetLiquid(i).AllowEmitBreathBubbles;
-+				}
++				canEmitBreath = LiquidID.Sets.AllowEmitBreathBubbles[i];
 +			}
 +		}
 +		if (canEmitBreath == null) {
@@ -4928,9 +4925,9 @@
  
  		if (num86) {
 +			bool putsOutOnfire = true;
-+			for (int j = LiquidLoader.LiquidCount - 1; j >= LiquidID.Count; j--)
++			for (int j = LiquidLoader.LiquidCount - 1; j >= 0; j--)
 +				if (wets[j])
-+					putsOutOnfire = LiquidLoader.GetLiquid(j).ExtinguishesOnFireDebuffs;
++					putsOutOnfire = LiquidID.Sets.DoesNotExtinguishesOnFireDebuffs[j];
 -			if ((onFire || onFire3) && !lavaWet) {
 +			if ((onFire || onFire3) && !lavaWet && putsOutOnfire) {
  				for (int num89 = 0; num89 < maxBuffs; num89++) {
@@ -7794,7 +7791,7 @@
 -
 -		if ((sItem.type == 205 && !Main.tile[tileTargetX, tileTargetY].shimmer()) || (sItem.type == 3032 && Main.tile[tileTargetX, tileTargetY].liquidType() == 0) || (sItem.type == 3032 && Main.tile[tileTargetX, tileTargetY].shimmer()) || (sItem.type == 4872 && Main.tile[tileTargetX, tileTargetY].lava()) || (sItem.type == 5303 && Main.tile[tileTargetX, tileTargetY].honey()) || sItem.type == 5304) {
 +		// TODO: OnBucketPickup(Item item, int LiquidID) hook
-+		if ((ItemID.Sets.BucketItems.Contains(sItem.type) && LiquidID.Sets.CreateLiquidBucketItem[Main.tile[tileTargetX, tileTargetY].liquidType()] != -1) || LiquidID.Sets.CanBeAbsorbedBy[Main.tile[tileTargetX, tileTargetY].liquidType()].Contains(sItem.type)) {
++		if ((ItemID.Sets.BucketItems[sItem.type] && LiquidID.Sets.CreateLiquidBucketItem[Main.tile[tileTargetX, tileTargetY].liquidType()] != -1) || LiquidID.Sets.CanBeAbsorbedBy[Main.tile[tileTargetX, tileTargetY].liquidType()].Contains(sItem.type)) {
  			int num = Main.tile[tileTargetX, tileTargetY].liquidType();
  			int num2 = 0;
  			for (int i = tileTargetX - 1; i <= tileTargetX + 1; i++) {
@@ -7812,7 +7809,7 @@
  			}
 +			newBucketLogic:
 +			// if item is not sponge, convert to FactorySet?
-+			if (!ItemID.Sets.SpongeItems.Contains(sItem.type)) {
++			if (!ItemID.Sets.SpongeItems[sItem.type]) {
 +				// If the bucket in question is a vanilla bucket
 +				
 +				if (sItem.type == ItemID.EmptyBucket) {
