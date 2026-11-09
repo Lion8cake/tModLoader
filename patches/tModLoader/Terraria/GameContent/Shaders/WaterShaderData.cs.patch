@@ -14,17 +14,6 @@
  
  namespace Terraria.GameContent.Shaders;
  
-@@ -212,6 +_,10 @@
- 					if (!player.wet)
- 						num4 = -20f;
- 
-+					for (int l = LiquidLoader.LiquidCount - 1; l >= 0; l--)
-+						if (player.wets[l])
-+							LiquidLoader.PlayerRippleModifier(l, player, ref num3, ref num4);
-+
- 					num3 *= 3f;
- 					QueueRipple(player.Center + velocity2 * num4, player.wet ? num3 : (0f - num3), new Vector2(player.width, (float)player.height * ((float)(int)player.wetCount / 9f)) * MathHelper.Clamp(num3 * 10f, 0f, 1f), RippleShape.Circle);
- 				}
 @@ -229,6 +_,9 @@
  				bool flag = projectile.lavaWet;
  				bool flag2 = projectile.honeyWet;

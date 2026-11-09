@@ -215,17 +215,6 @@ public abstract class ModLiquid : ModBlockType
 	{
 	}
 
-	/// <summary>
-	/// Allows you to modify the ripple strength and offset when a player enters, exists and moves through this liquid. <br/>
-	/// This is executed right before QueueRipple is called in Terraria.GameContent.Shaders.WaterShaderData.DrawWaves.
-	/// </summary>
-	/// <param name="player">The player moving through the liquid.</param>
-	/// <param name="rippleStrength">The strength and size of a ripple.</param>
-	/// <param name="rippleOffset">The offset of a ripple.</param>
-	public virtual void PlayerRippleModifier(Player player, ref float rippleStrength, ref float rippleOffset)
-	{
-	}
-
 	public override string LocalizationCategory => "Liquids";
 
 	/// <summary>

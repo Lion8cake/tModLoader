@@ -169,18 +169,6 @@ namespace ExampleMod.Content.Liquids
 			}
 		}
 
-		public override void PlayerRippleModifier(Player player, ref float rippleStrength, ref float rippleOffset) {
-			if (!player.wet)
-				rippleOffset = -1f;
-
-			float factor = ((float)(int)player.wetCount / 9f);
-
-			factor = ((float)(int)player.wetCount / 9f);
-			rippleStrength += 0.5f * factor;
-
-			rippleStrength *= 0.75f;
-		}
-
 		// We use this hook to make so that shimmer can only be pumped if the moon has been defeated
 		public override bool CanPump(int inX, int inY, int outX, int outY) {
 			// Here we have another example where if the moon lord has been defeated you can move the liquid using pumps;

@@ -82,7 +82,6 @@ public static class LiquidLoader
 		ModLoader.BuildGlobalHook(ref HookOnPlayerCollision, globalLiquids, (GlobalLiquid g) => g.OnPlayerColliding);
 		ModLoader.BuildGlobalHook(ref HookOnNPCCollision, globalLiquids, (GlobalLiquid g) => g.OnNPCColliding);
 		ModLoader.BuildGlobalHook(ref HookOnProjectileCollision, globalLiquids, (GlobalLiquid g) => g.OnProjectileColliding);
-		ModLoader.BuildGlobalHook(ref HookPlayerRippleModifier, globalLiquids, (GlobalLiquid g) => g.PlayerRippleModifier);
 
 		if (!unloading) {
 			loaded = true;
@@ -260,16 +259,6 @@ public static class LiquidLoader
 		GetLiquid(type)?.OnProjectileColliding(proj);
 		foreach (var hook in HookOnProjectileCollision) {
 			hook(proj, type);
-		}
-	}
-
-	private delegate void DelegatePlayerRippleModifier(Player player, int type, ref float rippleStrength, ref float rippleOffset);
-	private static DelegatePlayerRippleModifier[] HookPlayerRippleModifier;
-	public static void PlayerRippleModifier(int type, Player player, ref float rippleStrength, ref float rippleOffset)
-	{
-		GetLiquid(type)?.PlayerRippleModifier(player, ref rippleStrength, ref rippleOffset);
-		foreach (var hook in HookPlayerRippleModifier) {
-			hook(player, type, ref rippleStrength, ref rippleOffset);
 		}
 	}
 }
