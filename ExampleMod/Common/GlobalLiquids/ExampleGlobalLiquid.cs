@@ -99,16 +99,6 @@ namespace ExampleMod.Common.GlobalLiquids
 			return null;
 		}
 
-		//ChecksForDrowning allows which liquid the player can drown in.
-		//Normally water and honey will only let you drown, but here we make shimmer allow the player to drown in, and make water breathable.
-		public override bool CanPlayerDrown(Player player, int type) {
-			if (type == LiquidID.Water && player.armor[0].type == ItemID.IronHelmet) {
-				return false;
-			}
-
-			return base.CanPlayerDrown(player, type);
-		}
-
 		// In this example, we make it so that shimmer cannot be pumped if the moonlord was not defeated in the world
 		public override bool CanPump(int inLiquidType, int inX, int inY, int outX, int outY) {
 			// We check if the current liquid type is shimmer, if it is then we can check if the moon was not defeated.

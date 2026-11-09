@@ -4307,15 +4307,12 @@
  	}
  
  	public void StickyMovement()
-@@ -18862,6 +_,11 @@
+@@ -18861,7 +_,7 @@
+ 
  		if (mount.Active && mount.Type == 4)
  			flag = false;
- 
-+		for (int i = 0; i < LiquidLoader.LiquidCount; i++) {
-+			if (wets[i])
-+				flag = LiquidLoader.CanPlayerDrown(i, this);
-+		}
-+		
+-
++		// Check here
  		if (Main.myPlayer == whoAmI) {
  			if (accMerman) {
  				if (flag)

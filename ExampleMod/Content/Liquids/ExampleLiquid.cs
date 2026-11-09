@@ -256,50 +256,12 @@ namespace ExampleMod.Content.Liquids
 			rippleStrength *= 0.75f;
 		}
 
-		//related above, we use this method/hook to make items move at half the speed that they would when in honey
-		public override void ItemCollision(WorldItem item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed) {
-			gravity = 0.02f;
-			maxFallSpeed = 1f;
-			wetVelocity = item.velocity * 0.125f;
-
-			//The following has this liquid delete items of the Blue rarity similar to how lava deletes items of the white rarity
-			//We put this here as liquid movement is called just before lava deletion (Item.CheckLavaDeath)
-			if (!item.beingGrabbed) {
-				if (item.playerIndexTheItemIsReservedFor == Main.myPlayer && item.inner.rare == ItemRarityID.Blue && item.type >= ItemID.None && !ItemID.Sets.IsLavaImmuneRegardlessOfRarity[item.type]) {
-					//item.active = false;
-					item.type = ItemID.None;
-					item.stack = 0;
-					if (Main.netMode != NetmodeID.SinglePlayer) {
-						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, item.whoAmI);
-					}
-				}
-			}
-
-			//Here we detect if the item is a regular sink and destroy if that is the case, just to show a message.
-			if (item.type == ItemID.WoodenSink) {
-				item.TurnToAir();
-				CombatText.NewText(item.Hitbox, Color.White, "Let that sink in!", true);
-			}
-		}
-
-		// We use this hook to make so that the liquid can only be pumped up to 15 tiles away from it's original location
+		// We use this hook to make so that shimmer can only be pumped if the moon has been defeated
 		public override bool CanPump(int inX, int inY, int outX, int outY) {
-			// We start by converting our coordinates into Vector
-			Vector2 inPosition = new Vector2(inX, inY);
-			Vector2 outPosition = new Vector2(outX, outY);
-
-			// We then calculate the distance between the 2 vector
-			double distance = inPosition.Distance(outPosition);
-
-			// Then we check if the distance between them is higher than 15, if is then you can pump the liquid to that location
-			if (distance > 15.0) {
+			// Here we have another example where if the moon lord has been defeated you can move the liquid using pumps;
+			if (NPC.downedMoonlord) {
 				return true;
 			}
-
-			// Here we have another example where if the moon lord has been defeated you can move the liquid using pumps;
-			// if (NPC.downedMoonlord) {
-			//	 return true;
-			// }
 
 			// otherwise you cannot pump it at all
 			return false;

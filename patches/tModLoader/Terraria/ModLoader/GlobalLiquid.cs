@@ -186,19 +186,6 @@ public abstract class GlobalLiquid : ModType
 	}
 
 	/// <summary>
-	/// Allows you to give conditions for when the game attempts to check to see if the player is drowning. <br/>
-	/// Return true if the player should be drowning in the current liquid. <br/>
-	/// Return false if the player should not be drowning in the current liquid <br/>
-	/// This is used by items such as the Breething Reed to make the player be submerged deeper underwater. <br/>
-	/// </summary>
-	/// <param name="player">The player instance thats being effected by the liquid.</param>
-	/// <param name="type"></param>
-	public virtual bool CanPlayerDrown(Player player, int type)
-	{
-		return false;
-	}
-
-	/// <summary>
 	/// Allow or not fishing in this liquid. Return true to allow fishing in a specific liquid, return false to prevent fishing in a liquid <br/>
 	/// or return null (default) to allow default liquid behavior (For example, shimmer preventing fishing by default)
 	/// </summary>

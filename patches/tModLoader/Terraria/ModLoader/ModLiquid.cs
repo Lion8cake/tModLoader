@@ -170,31 +170,6 @@ public abstract class ModLiquid : ModBlockType
 	}
 
 	/// <summary>
-	/// Allows the user to specify how the liquid interacts with an item (especially item gravity and movement). <br/>
-	/// Please see <see cref="Item.UpdateItem" />, to see how vanilla handles it's liquid collision. <br/> <br/>
-	/// This method is also used to modify items detected to be in liquids. Use this to do things such as deleting items touching this liquid.
-	/// </summary>
-	/// <param name="item">The item instance thats being effected by the liquid.</param>
-	/// <param name="wetVelocity">The velocity of the item when in the liquid.</param>
-	/// <param name="gravity">The gravity of the item.</param>
-	/// <param name="maxFallSpeed">The maximum fall speed of the item.</param>
-	public virtual void ItemCollision(WorldItem item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
-	{
-	}
-
-	/// <summary>
-	/// Allows you to give conditions for when the game attempts to check to see if the player is drowning. <br/>
-	/// Return true if the player should be drowning in the current liquid. <br/>
-	/// Return false if the player should not be drowning in the current liquid <br/>
-	/// This is used by items such as the Breathing Reed to make the player be submerged deeper underwater. <br/>
-	/// </summary>
-	/// <param name="player">The player instance that being effected by the liquid.</param>
-	public virtual bool CanPlayerDrown(Player player)
-	{
-		return true;
-	}
-
-	/// <summary>
 	/// Allows manipulation of tiles when grass burns. This allows modders to make grasses burn with their liquid or do other interactions if a liquid is nearby a tile. <br/>
 	/// Only effects tiles in a 9x9 area around a liquid and only executes every few seconds.
 	/// </summary>
