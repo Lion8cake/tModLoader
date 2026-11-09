@@ -81,7 +81,6 @@ public static class LiquidLoader
 		ModLoader.BuildGlobalHook(ref HookMergeTiles, globalLiquids, (GlobalLiquid g) => g.Merge);
 		ModLoader.BuildGlobalHook(ref HookMergeTilesSounds, globalLiquids, (GlobalLiquid g) => g.MergeSound);
 		ModLoader.BuildGlobalHook(ref HookPreMerge, globalLiquids, (GlobalLiquid g) => g.PreMerge);
-		ModLoader.BuildGlobalHook(ref HookAllowFishing, globalLiquids, (GlobalLiquid g) => g.CanFish);
 		ModLoader.BuildGlobalHook(ref HookModifyTilesNearby, globalLiquids, (GlobalLiquid g) => g.ModifyNearbyTiles);
 		ModLoader.BuildGlobalHook(ref HookOnPump, globalLiquids, (GlobalLiquid g) => g.CanPump);
 		ModLoader.BuildGlobalHook(ref HookOnPlayerCollision, globalLiquids, (GlobalLiquid g) => g.OnPlayerColliding);
@@ -241,7 +240,6 @@ public static class LiquidLoader
 		return modLiquid?.PreMerge(liquidX, liquidY, tileX, tileY, otherLiquid) ?? true;
 	}
 
-	private static Func<int, Player, Projectile, bool?>[] HookAllowFishing;
 	public static bool? CanFish(int liquidType, Player player, Projectile projectile)
 	{
 		ModLiquid modLiquid = GetLiquid(liquidType);

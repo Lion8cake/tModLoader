@@ -14,25 +14,6 @@ namespace ExampleMod.Common.GlobalLiquids
 	//Here we do a range of different edits to vanilla liquids to show how to use this global class.
 	public class ExampleGlobalLiquid : GlobalLiquid
 	{
-		//AllowFishingInLiquid allow to control the fact you can fish in a liquid at a global level instead of a ModLiquid level
-		public override bool? CanFish(int liquidType, Player player, Projectile bobber) {
-			// We check if we allow fishing in shimmer only if the EoC has been defeated
-			if (liquidType == LiquidID.Shimmer && NPC.downedBoss1) {
-				// Returning true allow fishing in the liquid
-				return true;
-			}
-			// We check if the bobber is the golden rod bobber and if the EoC has been defeated
-			if (liquidType == LiquidID.Water && bobber.type == ProjectileID.BobberGolden && NPC.downedBoss1) {
-				// Returning false block fishing in the liquid
-				return false;
-			}
-			// We check if the player is on fire and if the liquid is lava
-			if ((liquidType == LiquidID.Lava || liquidType == ModContent.LiquidType<ExampleComplexLiquid>()) && player.onFire) {
-				return false;
-			}
-			return null;
-		}
-
 		// EvaporatesInHell allows us to specify which liquids evaporate and doesn't evaporate in the underworld under certain condition (or not).
 		// This allows us to do things such as prevent water from evaporating and allowing other liquids to evaporate
 		public override bool? CanWaterEvaporateInUnderworld() {

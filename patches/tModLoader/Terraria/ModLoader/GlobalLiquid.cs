@@ -186,18 +186,6 @@ public abstract class GlobalLiquid : ModType
 	}
 
 	/// <summary>
-	/// Allow or not fishing in this liquid. Return true to allow fishing in a specific liquid, return false to prevent fishing in a liquid <br/>
-	/// or return null (default) to allow default liquid behavior (For example, shimmer preventing fishing by default)
-	/// </summary>
-	/// <param name="player">The player attempting to fish in it</param>
-	/// <param name="bobber">The bobber that is trying to fish in the liquid</param>
-	/// <returns></returns>
-	public virtual bool? CanFish(int liquidType, Player player, Projectile bobber)
-	{
-		return null;
-	}
-
-	/// <summary>
 	/// Allows manipulation of tiles when grass burns. This allows modders to make grasses burn with a liquid or do other interactions if a liquid is nearby a tile. <br/>
 	/// Only effects tiles in a 9x9 area around a liquid and only executes every few seconds. <br/>
 	/// Can be used to allow modders to make sure their grasses burn when near lava.
