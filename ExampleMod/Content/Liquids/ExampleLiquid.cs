@@ -138,52 +138,6 @@ namespace ExampleMod.Content.Liquids
 			b = 1f;
 		}
 
-		//Here using ModifyNearbyTiles we do something similar to lava
-		//by changing nearby tiles from one to another, not only transformaing grasses into their dirts, but also moss into stone and sand into glass
-		public override void ModifyNearbyTiles(int i, int j, int liquidX, int liquidY) {
-			Tile tile = Main.tile[i, j];
-			//Grass and mud into dirt
-			if (tile.TileType == TileID.Grass || tile.TileType == TileID.CorruptGrass || tile.TileType == TileID.HallowedGrass || tile.TileType == TileID.CrimsonGrass || tile.TileType == TileID.GolfGrass || tile.TileType == TileID.GolfGrassHallowed || tile.TileType == TileID.Mud) {
-				tile.TileType = TileID.Dirt;
-				WorldGen.SquareTileFrame(i, j);
-				if (Main.netMode == NetmodeID.Server) {
-					NetMessage.SendTileSquare(-1, i, j, 3);
-				}
-			}
-			//jungle grass into mud
-			else if (tile.TileType == TileID.JungleGrass || tile.TileType == TileID.MushroomGrass || tile.TileType == TileID.CorruptJungleGrass || tile.TileType == TileID.CrimsonJungleGrass) {
-				tile.TileType = TileID.Mud;
-				WorldGen.SquareTileFrame(i, j);
-				if (Main.netMode == NetmodeID.Server) {
-					NetMessage.SendTileSquare(-1, i, j, 3);
-				}
-			}
-			//Ash grass into ash
-			else if (tile.TileType == TileID.AshGrass) {
-				tile.TileType = TileID.Ash;
-				WorldGen.SquareTileFrame(i, j);
-				if (Main.netMode == NetmodeID.Server) {
-					NetMessage.SendTileSquare(-1, i, j, 3);
-				}
-			}
-			//Non-glowing moss into stone
-			else if (tile.TileType == TileID.BrownMoss || tile.TileType == TileID.BlueMoss || tile.TileType == TileID.GreenMoss || tile.TileType == TileID.RedMoss) {
-				tile.TileType = TileID.Stone;
-				WorldGen.SquareTileFrame(i, j);
-				if (Main.netMode == NetmodeID.Server) {
-					NetMessage.SendTileSquare(-1, i, j, 3);
-				}
-			}
-			//Sand into glass
-			else if (tile.TileType == TileID.Sand || tile.TileType == TileID.Ebonsand || tile.TileType == TileID.Crimsand || tile.TileType == TileID.Pearlsand) {
-				tile.TileType = TileID.Glass;
-				WorldGen.SquareTileFrame(i, j);
-				if (Main.netMode == NetmodeID.Server) {
-					NetMessage.SendTileSquare(-1, i, j, 3);
-				}
-			}
-		}
-
 		//Here we use the OnNPCCollision and OnPlayerCollision hooks to apply effects to entities when they enter this liquid.
 		//NOTE: UsesLavaCollisionForWet property is important for this hook.
 		//If true, this will effect entities even if they are slightly touching

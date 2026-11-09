@@ -170,18 +170,6 @@ public abstract class ModLiquid : ModBlockType
 	}
 
 	/// <summary>
-	/// Allows manipulation of tiles when grass burns. This allows modders to make grasses burn with their liquid or do other interactions if a liquid is nearby a tile. <br/>
-	/// Only effects tiles in a 9x9 area around a liquid and only executes every few seconds.
-	/// </summary>
-	/// <param name="i">The x position in tile coordinates.</param>
-	/// <param name="j">The y position in tile coordinates.</param>
-	/// <param name="liquidX">The x position of the liquid in tile coordinates.</param>
-	/// <param name="liquidY">The y position of the liquid in tile coordinates.</param>
-	public virtual void ModifyNearbyTiles(int i, int j, int liquidX, int liquidY)
-	{
-	}
-
-	/// <summary>
 	/// Allows modders to do extra interactions when their liquid is pumped. <br/>
 	/// Works similarly to a Pre hook, executing before any liquids are moved for each pump. <br/>
 	/// Return true for pumps to execute their normal liquid moving logic. <br/>
