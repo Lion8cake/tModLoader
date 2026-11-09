@@ -5033,55 +5033,6 @@
  		float num111 = 0.5f;
  		float num112 = 0.5f;
  		float movementSpeed = 0.25f;
-@@ -22901,14 +_,46 @@
- 			position += velocity * num113;
- 		}
- 		else {
--			if (shimmerWet) {
-+			if (shimmerWet && LiquidLoader.PlayerMovement(LiquidID.Shimmer, this, fallThrough, flag30)) {
-+		/*if (shimmerWet) {*/
- 				WetCollision(fallThrough, flag30, num113);
- 			}
--			else if (honeyWet && !ignoreWater) {
-+			/*else if (honeyWet && !ignoreWater) {
- 				WetCollision(fallThrough, flag30, movementSpeed);
- 			}
- 			else if (wet && !merman && !ignoreWater && !trident) {
- 				WetCollision(fallThrough, flag30, lavaWet ? num112 : num111);
-+			}*/
-+			else if (wet) {
-+				int inModdedLiquid = 0;
-+				for (int j = LiquidLoader.LiquidCount - 1; j >= LiquidID.Count; j--) {
-+					if (wets[j]) {
-+						inModdedLiquid = j;
-+						break;
-+					}
-+				}
-+
-+				if (inModdedLiquid > 0) {
-+					if (LiquidLoader.PlayerMovement(inModdedLiquid, this, fallThrough, flag30)) {
-+						// TODO: See if this is still relevent or not
-+						ModLiquidCollision(inModdedLiquid, fallThrough, flag30);
-+					}
-+				}
-+				else if (shimmerWet) {
-+					if (LiquidLoader.PlayerMovement(LiquidID.Shimmer, this, fallThrough, flag30)) {
-+						WetCollision(fallThrough, flag30, num113);
-+					}
-+				}
-+				else if (honeyWet && !ignoreWater) {
-+				    if (LiquidLoader.PlayerMovement(LiquidID.Honey, this, fallThrough, flag30)) {
-+					    WetCollision(fallThrough, flag30, movementSpeed);
-+				    }
-+				}
-+				else if (!merman && !ignoreWater && !trident) {
-+				    if (LiquidLoader.PlayerMovement(lavaWet ? LiquidID.Lava : LiquidID.Water, this, fallThrough, flag30)) {
-+					    WetCollision(fallThrough, flag30, lavaWet ? num112 : num111);
-+					}
-+				}
- 			}
- 			else {
- 				DryCollision(fallThrough, flag30);
 @@ -22995,6 +_,9 @@
  		if (statMana > statManaMax2)
  			statMana = statManaMax2;

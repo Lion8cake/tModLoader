@@ -1590,60 +1590,14 @@
  					if (type >= 736 && type <= 738) {
  						velocity = Collision.TileCollision(position, velocity, width, height, flag6, flag6);
  					}
-@@ -15339,9 +_,26 @@
+@@ -15339,6 +_,7 @@
  					else {
  						velocity = Collision.TileCollision(position, velocity, width, height, flag6, flag6);
  					}
 +					*/
  				}
  				else if (wet) {
--					if (shimmerWet) {
-+						/*if (shimmerWet) {*/
-+					for (int i = LiquidLoader.LiquidCount - 1; i > 0; i--) {
-+						if (wets[i] && LiquidLoader.ProjectileLiquidMovement(i, this, ref wetVelocity, vector, colWidth, colHeight, flag6)) {
-+							Vector2 vector3 = velocity;
-+							velocity = Collision.TileCollision(vector, velocity, colWidth, colHeight, flag6, flag6);
-+							wetVelocity = velocity * LiquidID.Sets.ProjectileMovementMultiplier[i];
-+							if (velocity.X != vector3.X) {
-+								wetVelocity.X = velocity.X;
-+							}
-+							if (velocity.Y != vector3.Y) {
-+									wetVelocity.Y = velocity.Y;
-+							}
-+						}
-+					}
-+					goto postVanillaMovement;
-+					
-+					if (shimmerWet && LiquidLoader.ProjectileLiquidMovement(LiquidID.Shimmer, this, ref wetVelocity, vector, colWidth, colHeight, flag6)) {
- 						Vector2 vector2 = velocity;
- 						velocity = Collision.TileCollision(vector, velocity, colWidth, colHeight, flag6, flag6, 1, ignoreDoors);
- 						wetVelocity = velocity * 0.375f;
-@@ -15351,7 +_,7 @@
- 						if (velocity.Y != vector2.Y)
- 							wetVelocity.Y = velocity.Y;
- 					}
--					else if (honeyWet) {
-+					else if (honeyWet && LiquidLoader.ProjectileLiquidMovement(LiquidID.Honey, this, ref wetVelocity, vector, colWidth, colHeight, flag6)) {
- 						Vector2 vector3 = velocity;
- 						velocity = Collision.TileCollision(vector, velocity, colWidth, colHeight, flag6, flag6, 1, ignoreDoors);
- 						wetVelocity = velocity * 0.25f;
-@@ -15361,7 +_,7 @@
- 						if (velocity.Y != vector3.Y)
- 							wetVelocity.Y = velocity.Y;
- 					}
--					else {
-+					else if (LiquidLoader.ProjectileLiquidMovement(lavaWet ? LiquidID.Lava : LiquidID.Water, this, ref wetVelocity, vector, colWidth, colHeight, flag6)) {
- 						Vector2 vector4 = velocity;
- 						velocity = Collision.TileCollision(vector, velocity, colWidth, colHeight, flag6, flag6, 1, ignoreDoors);
- 						wetVelocity = velocity * 0.5f;
-@@ -15371,6 +_,7 @@
- 						if (velocity.Y != vector4.Y)
- 							wetVelocity.Y = velocity.Y;
- 					}
-+					postVanillaMovement:
- 
- 					if (!correctSlopeCollision) {
- 						Vector4 vector5 = Collision.SlopeCollision(vector, velocity, colWidth, colHeight, 0f, fall: true);
+ 					if (shimmerWet) {
 @@ -15637,6 +_,7 @@
  					}
  				}

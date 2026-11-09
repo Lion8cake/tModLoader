@@ -119,59 +119,6 @@ namespace ExampleMod.Common.GlobalLiquids
 			return base.CanPump(inLiquidType, inX, inY, outX, outY);
 		}
 
-		//Here, we make lava have no liquid movement at all
-		//Normally, returning false has no velocity applied to the player at all as liquid movement is responsible for adding velocity to position.
-		//To fix this, we copy the default movement when outside of liquids and have it run when in lava.
-		public override bool PlayerMovement(Player player, int type, bool fallThrough, bool ignorePlats) {
-			if (type == LiquidID.Lava) {
-				player.DryCollision(fallThrough, ignorePlats);
-				if (player.mount.Active && player.mount.IsConsideredASlimeMount && player.velocity.Y != 0f && !player.SlimeDontHyperJump) {
-					Vector2 vel = player.velocity;
-					player.velocity.X = 0f;
-					player.DryCollision(fallThrough, ignorePlats);
-					player.velocity.X = vel.X;
-				}
-				if (player.mount.Active && player.mount.Type == 43 && player.velocity.Y != 0f) {
-					Vector2 vel = player.velocity;
-					player.velocity.X = 0f;
-					player.DryCollision(fallThrough, ignorePlats);
-					player.velocity.X = vel.X;
-				}
-				return false;
-			}
-			return true;
-		}
-
-		//related to PlayerLiquidMovement hook, we make lava also ignore item physics when the item is falling in the liquid
-		public override void ItemCollision(WorldItem item, int type, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed) {
-			if (type == LiquidID.Lava) {
-				//we replicate the gravity with the values before liquid effects the references
-				gravity = 0.1f;
-				maxFallSpeed = 7f;
-				if (Main.netMode == NetmodeID.MultiplayerClient) {
-					int x = (int)(item.position.X + (float)(item.width / 2)) / 16;
-					int y = (int)(item.position.Y + (float)(item.height / 2)) / 16;
-					if (x >= 0 && y >= 0 && x < Main.maxTilesX && y < Main.maxTilesY && !Main.sectionManager.TileLoaded(x, y)) {
-						gravity = 0f;
-						item.velocity.X = 0f;
-						item.velocity.Y = 0f;
-					}
-				}
-				//the default for wetVelocity has the item move at 0.5x speed,
-				//but looking further into Item.UpdateItem shows that wetVelocity is just the normal velocity but multiplied by a multilier.
-				//So setting it to the item's velocity makes sure that velocity is kept.
-				wetVelocity = item.velocity;
-			}
-		}
-
-		//Lastly, and very easily, projectiles don't have default dry behaviour, so all we have to do for lava to not react to projectiles is to return false;
-		public override bool ProjectileMovement(Projectile projectile, int type, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough) {
-			if (type == LiquidID.Lava) {
-				return false;
-			}
-			return true;
-		}
-
 		//AnimateLiquid in a GlobalLiquid returns a boolean
 		//using this boolean, we can toggle the normal vanilla animating code or not
 		//with that, we disable the shimmer's animation, forcing it to be stuck on the first frame

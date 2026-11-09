@@ -81,10 +81,6 @@ public static class LiquidLoader
 		ModLoader.BuildGlobalHook(ref HookMergeTiles, globalLiquids, (GlobalLiquid g) => g.Merge);
 		ModLoader.BuildGlobalHook(ref HookMergeTilesSounds, globalLiquids, (GlobalLiquid g) => g.MergeSound);
 		ModLoader.BuildGlobalHook(ref HookPreMerge, globalLiquids, (GlobalLiquid g) => g.PreMerge);
-		ModLoader.BuildGlobalHook(ref HookPlayerCollision, globalLiquids, (GlobalLiquid g) => g.PlayerMovement);
-		ModLoader.BuildGlobalHook(ref HookItemMovement, globalLiquids, (GlobalLiquid g) => g.ItemCollision);
-		ModLoader.BuildGlobalHook(ref HookNPCCollision, globalLiquids, (GlobalLiquid g) => g.NPCMovement);
-		ModLoader.BuildGlobalHook(ref HookProjectileMovement, globalLiquids, (GlobalLiquid g) => g.ProjectileMovement);
 		ModLoader.BuildGlobalHook(ref HookCanPlayerDrown, globalLiquids, (GlobalLiquid g) => g.CanPlayerDrown);
 		ModLoader.BuildGlobalHook(ref HookAllowFishing, globalLiquids, (GlobalLiquid g) => g.CanFish);
 		ModLoader.BuildGlobalHook(ref HookModifyTilesNearby, globalLiquids, (GlobalLiquid g) => g.ModifyNearbyTiles);
@@ -244,50 +240,6 @@ public static class LiquidLoader
 			return otherModLiquid?.PreMerge(liquidX, liquidY, tileX, tileY, type) ?? true;
 		}
 		return modLiquid?.PreMerge(liquidX, liquidY, tileX, tileY, otherLiquid) ?? true;
-	}
-
-	private static Func<Player, int, bool, bool, bool>[] HookPlayerCollision;
-	public static bool PlayerMovement(int type, Player player, bool fallThrough, bool ignorePlats)
-	{
-		foreach (var hook in HookPlayerCollision) {
-			if (!hook(player, type, fallThrough, ignorePlats)) {
-				return false;
-			}
-		}
-		return GetLiquid(type)?.PlayerMovement(player, fallThrough, ignorePlats) ?? true;
-	}
-
-	private delegate void DelegateItemMovement(WorldItem item, int type, ref Vector2 wetVelocity, ref float grav, ref float gravMax);
-	private static DelegateItemMovement[] HookItemMovement;
-	public static void ItemMovement(int type, WorldItem item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
-	{
-		GetLiquid(type)?.ItemCollision(item, ref wetVelocity, ref gravity, ref maxFallSpeed);
-		foreach (var hook in HookItemMovement) {
-			hook(item, type, ref wetVelocity, ref gravity, ref maxFallSpeed);
-		}
-	}
-
-	private static Func<NPC, int, Vector2, bool>[] HookNPCCollision;
-	public static bool NPCMovement(int type, NPC npc, Vector2 dryVelocity)
-	{
-		foreach (var hook in HookNPCCollision) {
-			if (!hook(npc, type, dryVelocity)) {
-				return false;
-			}
-		}
-		return GetLiquid(type)?.NPCMovement(npc, dryVelocity) ?? true;
-	}
-
-	private delegate bool DelegateProjectileMovement(Projectile proj, int type, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int height, bool fallThrough);
-	private static DelegateProjectileMovement[] HookProjectileMovement;
-	public static bool ProjectileLiquidMovement(int type, Projectile proj, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
-	{
-		foreach (var hook in HookProjectileMovement) {
-			if (!hook(proj, type, ref wetVelocity, collisionPosition, Width, Height, fallThrough)) {
-				return false;
-			}
-		}
-		return GetLiquid(type)?.ProjectileMovement(proj, ref wetVelocity, collisionPosition, Width, Height, fallThrough) ?? true;
 	}
 
 	private static Func<Player, int, bool>[] HookCanPlayerDrown;

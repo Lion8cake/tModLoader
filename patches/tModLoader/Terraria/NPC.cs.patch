@@ -3093,44 +3093,6 @@
  		}
  
  		if (wetCount > 0)
-@@ -77718,6 +_,7 @@
- 		GetTileCollisionParameters(out var cPosition, out var cWidth, out var cHeight);
- 		Vector2 oldDryVelocity = velocity;
- 		ApplyTileCollision(fall, cPosition, cWidth, cHeight);
-+		/*
- 		if (wet) {
- 			if (shimmerWet)
- 				Collision_MoveWhileWet(oldDryVelocity, shimmerMovementSpeed);
-@@ -77727,6 +_,29 @@
- 				Collision_MoveWhileWet(oldDryVelocity, lavaMovementSpeed);
- 			else
- 				Collision_MoveWhileWet(oldDryVelocity, waterMovementSpeed);
-+		*/
-+		bool canLiquidMove = true;
-+		for (int i = LiquidLoader.LiquidCount - 1; i >= 0; i--) {
-+			if (wets[i]) {
-+				canLiquidMove = LiquidLoader.NPCMovement(i, this, oldDryVelocity);
-+				break;
-+			}
-+		}
-+		if (wet && canLiquidMove) {
-+			for (int i = LiquidLoader.LiquidCount - 1; i >= 0; i--) {
-+				if (wets[i]) {
-+					Collision_MoveWhileWet(oldDryVelocity, liquidMovementSpeed[i]);
-+					break;
-+				}
-+			}
-+			//if (shimmerWet)
-+			//	Collision_MoveWhileWet(oldDryVelocity, shimmerMovementSpeed);
-+			//else if (honeyWet)
-+			//	Collision_MoveWhileWet(oldDryVelocity, honeyMovementSpeed);
-+			//else if (lavaWet)
-+			//	Collision_MoveWhileWet(oldDryVelocity, lavaMovementSpeed);
-+			//else
-+			//	Collision_MoveWhileWet(oldDryVelocity, waterMovementSpeed);
- 		}
- 		else {
- 			Collision_MoveWhileDry();
 @@ -78018,6 +_,9 @@
  
  	private bool Collision_DecideFallThroughPlatforms()

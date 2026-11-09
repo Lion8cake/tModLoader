@@ -256,26 +256,6 @@ namespace ExampleMod.Content.Liquids
 			rippleStrength *= 0.75f;
 		}
 
-
-
-		//The following contains all logic related to modifying the movement of entities in this liquid, making Players, Items, NPCs and Projectiles move slower while in this liquid
-		//Here we replicate normal liquid movement behaviour using PlayerMovement
-		public override bool PlayerMovement(Player player, bool fallThrough, bool ignorePlats) {
-			int height = (!player.onTrack) ? player.height : (player.height - 20);
-			Vector2 velocity = player.velocity;
-			player.velocity = Collision.TileCollision(player.position, player.velocity, player.width, height, fallThrough, ignorePlats, (int)player.gravDir);
-			Vector2 vector2 = player.velocity * LiquidID.Sets.PlayerMovementMultiplier[Type]; //We reuse the PlayerMovementMultiplier here for it to serve the same purpose
-			if (player.velocity.X != velocity.X) {
-				vector2.X = player.velocity.X;
-			}
-			if (player.velocity.Y != velocity.Y) {
-				vector2.Y = player.velocity.Y;
-			}
-			player.position += vector2;
-			player.TryFloatingInFluid();
-			return false; //We return false as we do not want the normal liquid movement to execute after this hook/method
-		}
-
 		//related above, we use this method/hook to make items move at half the speed that they would when in honey
 		public override void ItemCollision(WorldItem item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed) {
 			gravity = 0.02f;
@@ -300,21 +280,6 @@ namespace ExampleMod.Content.Liquids
 				item.TurnToAir();
 				CombatText.NewText(item.Hitbox, Color.White, "Let that sink in!", true);
 			}
-		}
-
-		//lastly, we reimplement the projectile movement in liquids using the ProjectileMovement
-		//This hook is very similar and different to PlayerMovement, returning a bool and only having wetVelocity as a referenced parameter
-		public override bool ProjectileMovement(Projectile projectile, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough) {
-			Vector2 vector = projectile.velocity;
-			projectile.velocity = Collision.TileCollision(collisionPosition, projectile.velocity, Width, Height, fallThrough, fallThrough);
-			wetVelocity = projectile.velocity * LiquidID.Sets.ProjectileMovementMultiplier[Type]; //We reuse the ProjectileMovementMultiplier here for it to serve the same purpose
-			if (projectile.velocity.X != vector.X) {
-				wetVelocity.X = projectile.velocity.X;
-			}
-			if (projectile.velocity.Y != vector.Y) {
-				wetVelocity.Y = projectile.velocity.Y;
-			}
-			return false; //We return false as we do not want the normal liquid movement to execute after this hook/method
 		}
 
 		// We use this hook to make so that the liquid can only be pumped up to 15 tiles away from it's original location

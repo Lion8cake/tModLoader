@@ -170,21 +170,6 @@ public abstract class ModLiquid : ModBlockType
 	}
 
 	/// <summary>
-	/// Allows the user to specify how the liquid interacts with the player (especially player movement). <br/>
-	/// Please see <see cref="Player.WaterCollision" />, <see cref="Player.HoneyCollision" />, or <see cref="Player.ShimmerCollision" /> to see how vanilla handles it's liquid collision. <br/>
-	/// Return true for the liquid to use the normal liquid collision code. <br/>
-	/// Returns true by default.
-	/// </summary>
-	/// <param name="player">The player instance thats being effected by the liquid.</param>
-	/// <param name="fallThrough">Whether or not the player is falling through the liquid.</param>
-	/// <param name="ignorePlats">Whether or not the player ignores platforms when falling.</param>
-	/// <returns></returns>
-	public virtual bool PlayerMovement(Player player, bool fallThrough, bool ignorePlats)
-	{
-		return true;
-	}
-
-	/// <summary>
 	/// Allows the user to specify how the liquid interacts with an item (especially item gravity and movement). <br/>
 	/// Please see <see cref="Item.UpdateItem" />, to see how vanilla handles it's liquid collision. <br/> <br/>
 	/// This method is also used to modify items detected to be in liquids. Use this to do things such as deleting items touching this liquid.
@@ -195,38 +180,6 @@ public abstract class ModLiquid : ModBlockType
 	/// <param name="maxFallSpeed">The maximum fall speed of the item.</param>
 	public virtual void ItemCollision(WorldItem item, ref Vector2 wetVelocity, ref float gravity, ref float maxFallSpeed)
 	{
-	}
-
-	/// <summary>
-	/// Allows the user to specify how the liquid interacts with an npc (especially npc movement). <br/>
-	/// Please see <see cref="NPC.UpdateCollision" />, to see how vanilla handles it's liquid collision. <br/>
-	/// Return true for the liquid to call the method that applies the liquid velocity multiplier. <br/>
-	/// Returns true by default.
-	/// </summary>
-	/// <param name="npc">The npc instance thats being effected by the liquid.</param>
-	/// <param name="dryVelocity">The velocity of the NPC before being modified by the liquid.</param>
-	/// <returns></returns>
-	public virtual bool NPCMovement(NPC npc, Vector2 dryVelocity)
-	{
-		return true;
-	}
-
-	/// <summary>
-	/// Allows the user to specify how the liquid interacts with a projectile (especially projectile movement). <br/>
-	/// Please see <see cref="Projectile.HandleMovement" />, to see how vanilla handles it's liquid collision. <br/>
-	/// Return true for the liquid to use the normal liquid collision code. <br/>
-	/// Returns true by default.
-	/// </summary>
-	/// <param name="projectile">The projectile instance thats being effected by the liquid.</param>
-	/// <param name="wetVelocity">The velocity of the item when in the liquid.</param>
-	/// <param name="collisionPosition">The position of where the projectile is calculated when colliding with this liquid.</param>
-	/// <param name="Width">The modified width of this projectile.</param>
-	/// <param name="Height">The modified height of this projectile.</param>
-	/// <param name="fallThrough">Whether or not the projectile can fall through.</param>
-	/// <returns></returns>
-	public virtual bool ProjectileMovement(Projectile proj, ref Vector2 wetVelocity, Vector2 collisionPosition, int Width, int Height, bool fallThrough)
-	{
-		return true;
 	}
 
 	/// <summary>
