@@ -169,20 +169,6 @@ namespace ExampleMod.Content.Liquids
 			}
 		}
 
-		//These methods provide a way to edit the waves produced by a liquid
-		//both modify the waves to be slightly larger and offset slightly less when moving through
-		public override void NPCRippleModifier(NPC npc, ref float rippleStrength, ref float rippleOffset) {
-			if (!npc.wet)
-				rippleOffset = -1f;
-
-			float factor = ((float)(int)npc.wetCount / 9f);
-
-			factor = ((float)(int)npc.wetCount / 9f);
-			rippleStrength += 0.25f * factor;
-
-			rippleStrength *= 0.5f;
-		}
-
 		public override void PlayerRippleModifier(Player player, ref float rippleStrength, ref float rippleOffset) {
 			if (!player.wet)
 				rippleOffset = -1f;
