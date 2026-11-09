@@ -92,18 +92,6 @@ public abstract class GlobalLiquid : ModType
 	}
 
 	/// <summary>
-	/// Allows you to change how liquids move when loading or creating a world. Returns true by default.
-	/// </summary>
-	/// <param name="i">The x position in tile coordinates.</param>
-	/// <param name="j">The y position in tile coordinates.</param>
-	/// <param name="type"></param>
-	/// <returns></returns>
-	public virtual bool SettleLiquidMovement(int i, int j, int type)
-	{
-		return true;
-	}
-
-	/// <summary>
 	/// Used to change what tile the liquid generates upon coming in contact with another liquid. Use the otherLiquid param to check what liquid this liquid is interacting with.<br/>
 	/// This method is called even if a tile isn't generated. It is recommended that modders use a non-frame important tile as the result, otherwise the tile may fail to generate.<br/>
 	/// It is recomended that developers use PreLiquidMerge for handling custom collisions and effects as that method is only called when a tile is requested to generate.<br/>
