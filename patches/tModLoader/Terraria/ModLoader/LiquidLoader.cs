@@ -82,7 +82,6 @@ public static class LiquidLoader
 		ModLoader.BuildGlobalHook(ref HookOnPlayerCollision, globalLiquids, (GlobalLiquid g) => g.OnPlayerColliding);
 		ModLoader.BuildGlobalHook(ref HookOnNPCCollision, globalLiquids, (GlobalLiquid g) => g.OnNPCColliding);
 		ModLoader.BuildGlobalHook(ref HookOnProjectileCollision, globalLiquids, (GlobalLiquid g) => g.OnProjectileColliding);
-		ModLoader.BuildGlobalHook(ref HookAnimateLiquid, globalLiquids, (GlobalLiquid g) => g.AnimateLiquid);
 		ModLoader.BuildGlobalHook(ref HookNPCRippleModifier, globalLiquids, (GlobalLiquid g) => g.NPCRippleModifier);
 		ModLoader.BuildGlobalHook(ref HookPlayerRippleModifier, globalLiquids, (GlobalLiquid g) => g.PlayerRippleModifier);
 
@@ -263,30 +262,6 @@ public static class LiquidLoader
 		foreach (var hook in HookOnProjectileCollision) {
 			hook(proj, type);
 		}
-	}
-
-	private delegate void DelegateModLiquidAnimateLiquid(GameTime gameTime, ref int frame, ref float frameState);
-	private delegate bool DelegateAnimateLiquid(int type, GameTime gameTime, ref int frame, ref float frameState);
-	private static DelegateAnimateLiquid[] HookAnimateLiquid;
-	public static bool AnimateLiquid(int type, GameTime gameTime, ref int frame, ref float frameState)
-	{
-		bool hasOverride = false;
-		ModLiquid modLiquid = GetLiquid(type);
-		if (modLiquid != null) {
-			if (LoaderUtils.HasOverride(modLiquid, (Expression<Func<ModLiquid, DelegateModLiquidAnimateLiquid>>)((ModLiquid t) => t.AnimateLiquid))) {
-				hasOverride = true;
-			}
-			modLiquid.AnimateLiquid(gameTime, ref frame, ref frameState);
-		}
-
-		if (HookAnimateLiquid != null) {
-			foreach (var hook in HookAnimateLiquid) {
-				if (!hook(type, gameTime, ref frame, ref frameState)) {
-					return false;
-				}
-			}
-		}
-		return !hasOverride;
 	}
 
 	private delegate void DelegateNPCRippleModifier(NPC npc, int type, ref float rippleStrength, ref float rippleOffset);

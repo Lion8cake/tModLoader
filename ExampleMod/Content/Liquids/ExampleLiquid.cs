@@ -169,21 +169,6 @@ namespace ExampleMod.Content.Liquids
 			}
 		}
 
-		//Here we animate our liquid separately from other liquids in the game.
-		//We animate it similarly to how it's normally animated, except the animation is twice as slow
-		public override void AnimateLiquid(GameTime gameTime, ref int frame, ref float frameState) {
-			float frameSpeed = Main.windSpeedCurrent * (25f / 2); //The code is exactly 1:1 with how vanilla animates it's liquids, except here the 2 is here to animate it half as slow
-			frameSpeed = ((!(frameSpeed < 0f)) ? (frameSpeed + 5f) : (frameSpeed - 5f));
-			frameSpeed = MathF.Abs(frameSpeed);
-			frameState += frameSpeed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-			if (frameState < 0f)
-				frameState += 16f;
-
-			frameState %= 16f;
-
-			frame = (int)frameState;
-		}
-
 		//These methods provide a way to edit the waves produced by a liquid
 		//both modify the waves to be slightly larger and offset slightly less when moving through
 		public override void NPCRippleModifier(NPC npc, ref float rippleStrength, ref float rippleOffset) {
