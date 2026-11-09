@@ -25,6 +25,9 @@ namespace ExampleMod.Content.Liquids
 			LiquidID.Sets.CheckForDrowning[Type] = false;
 			LiquidID.Sets.AllowEmitBreathBubbles[Type] = false;
 
+			// We prevent solid to be placed in this liquid
+			LiquidID.Sets.UseLavaPlacementRules[Type] = true;
+
 			//Here we make so that the player OnFire debuff does not get removed when going in this liquid
 			LiquidID.Sets.ExtinguishesOnFireDebuffs[Type] = false;
 			AddMapEntry(new Color(80, 53, 80));
@@ -46,17 +49,6 @@ namespace ExampleMod.Content.Liquids
 				return TileID.ShimmerBlock;
 			}
 			return TileID.Stone;
-		}
-
-		/// <summary>
-		/// TODO: Better example
-		/// </summary>
-		/// <param name="player"></param>
-		/// <param name="i"></param>
-		/// <param name="j"></param>
-		/// <returns></returns>
-		public override bool BlocksTilePlacement(Player player, int i, int j) {
-			return true;
 		}
 
 		public override void MergeSound(int i, int j, int otherLiquid, ref SoundStyle? collisionSound) {

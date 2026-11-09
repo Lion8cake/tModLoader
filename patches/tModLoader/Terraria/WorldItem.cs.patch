@@ -126,18 +126,33 @@
  	public void MakeInstanced(Predicate<Player> shouldSpawnForPlayer, int defaultLifetimeOverride = 0)
  	{
  		if (Main.netMode != 2)
-@@ -329,6 +_,11 @@
+@@ -312,8 +_,9 @@
+ 					NetMessage.SendData(159, -1, -1, null, point.X / 200, point.Y / 150);
+ 			}
+ 		}
+-
++		
+ 		Vector2 wetVelocity = velocity * 0.5f;
++		/*
+ 		if (shimmerWet) {
+ 			gravity = 0.065f;
+ 			maxFallSpeed = 4f;
+@@ -328,6 +_,15 @@
+ 			gravity = 0.08f;
  			maxFallSpeed = 5f;
  		}
- 
-+		for (int j = 0; j < LiquidLoader.LiquidCount; j++) {
-+			if (wets[j])
-+				LiquidLoader.ItemMovement(j, this, ref wetVelocity, ref gravity, ref maxFallSpeed);
-+		}
++		*/
 +
++		for (int j = 0; j < LiquidLoader.LiquidCount; j++) {
++			if (wets[j]) {
++				gravity = LiquidID.Sets.WetItemGravityMultiplier[j];
++				maxFallSpeed = LiquidID.Sets.WetItemMaxFallSpeed[j];
++				wetVelocity = velocity * LiquidID.Sets.ItemMovementMultiplier[j];
++			}
++		}
+ 
  		if (!beingGrabbed) {
  			if (type == 205)
- 				TryFillBucket();
 @@ -366,6 +_,8 @@
  		if (timeSinceItemSpawned < 2147483547)
  			timeSinceItemSpawned++;

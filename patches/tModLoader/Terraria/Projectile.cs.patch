@@ -1444,34 +1444,34 @@
 +					bool isWaterWet = true;
 +					if (flag) {
  						lavaWet = true;
-+						LiquidLoader.OnProjectileCollision(LiquidID.Lava, this);
++						LiquidLoader.OnProjectileColliding(LiquidID.Lava, this);
 +						isWaterWet = false;
 +					}
  
 -					if (Collision.honey)
 +					if (Collision.honey) {
  						honeyWet = true;
-+						LiquidLoader.OnProjectileCollision(LiquidID.Honey, this);
++						LiquidLoader.OnProjectileColliding(LiquidID.Honey, this);
 +						isWaterWet = false;
 +					}
  
 -					if (Collision.shimmer)
 +					if (Collision.shimmer) {
  						shimmerWet = true;
-+						LiquidLoader.OnProjectileCollision(LiquidID.Shimmer, this);
++						LiquidLoader.OnProjectileColliding(LiquidID.Shimmer, this);
 +						isWaterWet = false;
 +					}
 +
 +					for (int j = LiquidID.Count; j < LiquidLoader.LiquidCount; j++) {
 +						if (liquidsIn[j]) {
 +							wets[j] = true;
-+							LiquidLoader.OnProjectileCollision(j, this);
++							LiquidLoader.OnProjectileColliding(j, this);
 +							isWaterWet = false;
 +						}
 +					}
 +
 +					if (flag2 && isWaterWet) {
-+						LiquidLoader.OnProjectileCollision(LiquidID.Water, this);
++						LiquidLoader.OnProjectileColliding(LiquidID.Water, this);
 +						wets[LiquidID.Water] = true;
 +					}	
  				}
@@ -2248,7 +2248,7 @@
 +		else {
 +			for (int i = 0; i < LiquidLoader.LiquidCount; i++) {
 +				if (wets[i]) {
-+					bool? result = LiquidLoader.AllowFishing(i, player, this);
++					bool? result = LiquidLoader.CanFish(i, player, this);
 +					if (result == false) {
 +						flag2 = true;
 +						break;

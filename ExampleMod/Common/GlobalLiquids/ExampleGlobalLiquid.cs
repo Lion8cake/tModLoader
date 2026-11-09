@@ -15,7 +15,7 @@ namespace ExampleMod.Common.GlobalLiquids
 	public class ExampleGlobalLiquid : GlobalLiquid
 	{
 		//AllowFishingInLiquid allow to control the fact you can fish in a liquid at a global level instead of a ModLiquid level
-		public override bool? AllowFishing(int liquidType, Player player, Projectile bobber) {
+		public override bool? CanFish(int liquidType, Player player, Projectile bobber) {
 			// We check if we allow fishing in shimmer only if the EoC has been defeated
 			if (liquidType == LiquidID.Shimmer && NPC.downedBoss1) {
 				// Returning true allow fishing in the liquid
@@ -99,23 +99,6 @@ namespace ExampleMod.Common.GlobalLiquids
 			return null;
 		}
 
-		//BlocksTilePlacement allows us to specify which liquids block placing tiles over them.
-		//Normally Lava are true, but here we set them to false depending on where the liquid itself is located or if the player is in a specific biome. 
-		public override bool? BlocksTilePlacement(Player player, int i, int j, int type) {
-			// In this case, we check if the liquid is water and if the player is in the Example Surface Biome
-			if (type == LiquidID.Water && player.InModBiome<ExampleSurfaceBiome>()) {
-				// Then we return true to not allow placement in water if the player is in Example Surface Biome
-				return true;
-			}
-
-			// In this case, we check if the liquid is lava and if it's located in the underworld 
-			if (type == LiquidID.Lava && j > Main.maxTilesY - 200) {
-				// Then we return false if the lava is located in the underworld so we can place tile on it
-				return false;
-			}
-			return null;
-		}
-
 		//ChecksForDrowning allows which liquid the player can drown in.
 		//Normally water and honey will only let you drown, but here we make shimmer allow the player to drown in, and make water breathable.
 		public override bool CanPlayerDrown(Player player, int type) {
@@ -127,13 +110,13 @@ namespace ExampleMod.Common.GlobalLiquids
 		}
 
 		// In this example, we make it so that shimmer cannot be pumped if the moonlord was not defeated in the world
-		public override bool OnPump(int inLiquidType, int inX, int inY, int outX, int outY) {
+		public override bool CanPump(int inLiquidType, int inX, int inY, int outX, int outY) {
 			// We check if the current liquid type is shimmer, if it is then we can check if the moon was not defeated.
 			if (inLiquidType == LiquidID.Shimmer && !NPC.downedMoonlord) {
 				// If this is the case, then we cannot pump shimmer until the moon lord has been defeated
 				return false;
 			}
-			return base.OnPump(inLiquidType, inX, inY, outX, outY);
+			return base.CanPump(inLiquidType, inX, inY, outX, outY);
 		}
 
 		//Here, we make lava have no liquid movement at all

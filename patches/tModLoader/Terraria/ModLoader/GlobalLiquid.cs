@@ -186,21 +186,6 @@ public abstract class GlobalLiquid : ModType
 	}
 
 	/// <summary>
-	/// Allows the user to specify whether the liquid prevents the placement or blockswap of a tile over this liquid. Usually used by lava to stop players from placing ontop of it. <br/>
-	/// Return true for the liquid to prevent tile placement, return false if the liquid can have tiles placed over it. Return null for the default logic to run.<br/>
-	/// Returns null by default.
-	/// </summary>
-	/// <param name="player">The player instance thats attempting to place a tile over the liquid.</param>
-	/// <param name="i">The x position in tile coordinates.</param>
-	/// <param name="j">The y position in tile coordinates.</param>
-	/// <param name="type"></param>
-	/// <returns></returns>
-	public virtual bool? BlocksTilePlacement(Player player, int i, int j, int type)
-	{
-		return null;
-	}
-
-	/// <summary>
 	/// Allows the user to specify how a liquid interacts with the player (especially player movement). <br/>
 	/// Please see <see cref="Terraria.Player.WaterCollision" />, <see cref="Terraria.Player.HoneyCollision" />, or <see cref="Terraria.Player.ShimmerCollision" /> to see how vanilla handles it's liquid collision. <br/>
 	/// Return true for the liquid to use the normal liquid collision code. <br/>
@@ -284,7 +269,7 @@ public abstract class GlobalLiquid : ModType
 	/// <param name="player">The player attempting to fish in it</param>
 	/// <param name="bobber">The bobber that is trying to fish in the liquid</param>
 	/// <returns></returns>
-	public virtual bool? AllowFishing(int liquidType, Player player, Projectile bobber)
+	public virtual bool? CanFish(int liquidType, Player player, Projectile bobber)
 	{
 		return null;
 	}
@@ -315,7 +300,7 @@ public abstract class GlobalLiquid : ModType
 	/// <param name="outX">The x position of the out pump in tile coordinates.</param>
 	/// <param name="outY">The y position of the out pump in tile coordinates.</param>
 	/// <returns></returns>
-	public virtual bool OnPump(int inLiquidType, int inX, int inY, int outX, int outY)
+	public virtual bool CanPump(int inLiquidType, int inX, int inY, int outX, int outY)
 	{
 		return true;
 	}
@@ -327,7 +312,7 @@ public abstract class GlobalLiquid : ModType
 	/// </summary>
 	/// <param name="player">The player instance being effected by this liquid.</param>
 	/// <param name="type"></param>
-	public virtual void OnPlayerCollision(Player player, int type)
+	public virtual void OnPlayerColliding(Player player, int type)
 	{
 	}
 
@@ -338,7 +323,7 @@ public abstract class GlobalLiquid : ModType
 	/// </summary>
 	/// <param name="npc">The NPC instance being effected by this liquid.</param>
 	/// <param name="type"></param>
-	public virtual void OnNPCCollision(NPC npc, int type)
+	public virtual void OnNPCColliding(NPC npc, int type)
 	{
 	}
 
@@ -349,7 +334,7 @@ public abstract class GlobalLiquid : ModType
 	/// </summary>
 	/// <param name="proj">The Projectile instance being effected by this liquid.</param>
 	/// <param name="type"></param>
-	public virtual void OnProjectileCollision(Projectile proj, int type)
+	public virtual void OnProjectileColliding(Projectile proj, int type)
 	{
 	}
 

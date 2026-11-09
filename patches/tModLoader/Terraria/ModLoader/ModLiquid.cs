@@ -88,7 +88,7 @@ public abstract class ModLiquid : ModBlockType
 	/// <param name="player">The player attempting to fish in it</param>
 	/// <param name="bobber">The bobber that is trying to fish in the liquid</param>
 	/// <returns></returns>
-	public virtual bool AllowFishing(Player player, Projectile bobber)
+	public virtual bool CanFish(Player player, Projectile bobber)
 	{
 		return true;
 	}
@@ -167,20 +167,6 @@ public abstract class ModLiquid : ModBlockType
 	public virtual bool PreMerge(int liquidX, int liquidY, int tileX, int tileY, int otherLiquid)
 	{
 		return true;
-	}
-
-	/// <summary>
-	/// Allows the user to specify whether the liquid prevents the placement or blockswap of a tile over this liquid. Usually used by lava to stop players from placing ontop of it. <br/>
-	/// Return true for the liquid to prevent tile placement, return false if the liquid can have tiles placed over it. <br/>
-	/// Returns false by default.
-	/// </summary>
-	/// <param name="player">The player instance thats attempting to place a tile over the liquid.</param>
-	/// <param name="i">The x position in tile coordinates.</param>
-	/// <param name="j">The y position in tile coordinates.</param>
-	/// <returns></returns>
-	public virtual bool BlocksTilePlacement(Player player, int i, int j)
-	{
-		return false;
 	}
 
 	/// <summary>
@@ -278,7 +264,7 @@ public abstract class ModLiquid : ModBlockType
 	/// <param name="outX">The x position of the out pump in tile coordinates.</param>
 	/// <param name="outY">The y position of the out pump in tile coordinates.</param>
 	/// <returns></returns>
-	public virtual bool OnPump(int inX, int inY, int outX, int outY)
+	public virtual bool CanPump(int inX, int inY, int outX, int outY)
 	{
 		return true;
 	}
@@ -289,7 +275,7 @@ public abstract class ModLiquid : ModBlockType
 	/// Vanilla liquids use this to add buffs or debuffs such as On Fire!, Honey, or Shimmering.
 	/// </summary>
 	/// <param name="player">The player instance being effected by this liquid.</param>
-	public virtual void OnPlayerCollision(Player player)
+	public virtual void OnPlayerColliding(Player player)
 	{
 	}
 
@@ -299,7 +285,7 @@ public abstract class ModLiquid : ModBlockType
 	/// Vanilla liquids use this to damage the NPC and apply On Fire! when touching lava.
 	/// </summary>
 	/// <param name="npc">The NPC instance being effected by this liquid.</param>
-	public virtual void OnNPCCollision(NPC npc)
+	public virtual void OnNPCColliding(NPC npc)
 	{
 	}
 
@@ -309,7 +295,7 @@ public abstract class ModLiquid : ModBlockType
 	/// Vanilla liquids use this to transforming flaming arrows into arrows and killing flamethrower flames.
 	/// </summary>
 	/// <param name="proj">The Projectile instance being effected by this liquid.</param>
-	public virtual void OnProjectileCollision(Projectile proj)
+	public virtual void OnProjectileColliding(Projectile proj)
 	{
 	}
 

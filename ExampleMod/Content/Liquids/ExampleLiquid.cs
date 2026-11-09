@@ -75,7 +75,7 @@ namespace ExampleMod.Content.Liquids
 			LiquidID.Sets.WetNPCMaxFallSpeedModifier[Type] = 4f;
 
 			// We set in here the various player modifier when in a liquid
-			LiquidID.Sets.WetPlayerGravityModifier[Type] = 0.9f;
+			LiquidID.Sets.WetPlayerGravityMultiplier[Type] = 0.9f;
 			LiquidID.Sets.WetPlayerMaxFallSpeedModifier[Type] = 20f;
 			LiquidID.Sets.WetPlayerJumpHeightModifier[Type] = 60;
 			LiquidID.Sets.WetPlayerJumpSpeedModifier[Type] = 10.1f;
@@ -189,7 +189,7 @@ namespace ExampleMod.Content.Liquids
 		//If true, this will effect entities even if they are slightly touching
 		//If false, it will only effect the entity when almost fully submerged
 		//Firstly, we apply the dryad's ward debuff to NPCs
-		public override void OnNPCCollision(NPC npc) {
+		public override void OnNPCColliding(NPC npc) {
 			//Make sure that the NPC can take damage, and the game is not a player on a server
 			if (!npc.dontTakeDamage && Main.netMode != NetmodeID.MultiplayerClient) {
 				//we apply the debuff for 4 seconds
@@ -199,7 +199,7 @@ namespace ExampleMod.Content.Liquids
 
 		//Secondly, we apply the 2nd tier of Well Fed for 30 seconds
 		// And thirdly, we remove the onFire debuff if the player have it
-		public override void OnPlayerCollision(Player player) {
+		public override void OnPlayerColliding(Player player) {
 			//No conditions needed for our liquid
 			//Shimmer and honey also don't have any other conditions outside of already not shimmering
 			player.AddBuff(BuffID.WellFed2, 60 * 30);
@@ -318,7 +318,7 @@ namespace ExampleMod.Content.Liquids
 		}
 
 		// We use this hook to make so that the liquid can only be pumped up to 15 tiles away from it's original location
-		public override bool OnPump(int inX, int inY, int outX, int outY) {
+		public override bool CanPump(int inX, int inY, int outX, int outY) {
 			// We start by converting our coordinates into Vector
 			Vector2 inPosition = new Vector2(inX, inY);
 			Vector2 outPosition = new Vector2(outX, outY);

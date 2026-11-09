@@ -122,7 +122,7 @@
  					b2 = b;
  
 -				if (b2 == b) {
-+				if (b2 == b && LiquidLoader.OnPump(b, _inPumpX[i], _inPumpY[i], _outPumpX[j], _outPumpY[j])) {
++				if (b2 == b && LiquidLoader.CanPump(b, _inPumpX[i], _inPumpY[i], _outPumpX[j], _outPumpY[j])) {
  					int num5 = liquid;
  					if (num5 + liquid2 > 255)
  						num5 = 255 - liquid2;

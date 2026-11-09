@@ -4476,7 +4476,7 @@
 +			*/
 +			for (int j = 0; j < LiquidLoader.LiquidCount; j++) {
 +				if (wets[j]) {
-+					gravity = LiquidID.Sets.WetPlayerGravityModifier[j];
++					gravity = LiquidID.Sets.WetPlayerGravityMultiplier[j];
 +					maxFallSpeed = LiquidID.Sets.WetPlayerMaxFallSpeedModifier[j];
 +					jumpHeight = LiquidID.Sets.WetPlayerJumpHeightModifier[j];
 +					jumpSpeed = LiquidID.Sets.WetPlayerJumpSpeedModifier[j];
@@ -4487,9 +4487,18 @@
  				gravity = 0.3f;
  				maxFallSpeed = 7f;
  			}
-@@ -19858,7 +_,7 @@
+@@ -19851,14 +_,16 @@
+ 					maxFallSpeed = 2f;
+ 				}
+ 			}
++			/*
+ 			else {
+ 				gravity = 0.2f;
+ 				maxFallSpeed = 5f;
+ 				jumpHeight = 30;
  				jumpSpeed = 6.01f;
  			}
++			*/
  		}
 -
 +		
@@ -4914,14 +4923,14 @@
 +		Collision.GetModdedWets(position, width, height, out bool[] liquidsIn);
 +		// TODO: Verify this is the correct place where it should be
 +		if (lavaWet) {
-+			LiquidLoader.OnPlayerCollision(LiquidID.Lava, this);
++			LiquidLoader.OnPlayerColliding(LiquidID.Lava, this);
 +			wets[LiquidID.Lava] = true;
 +			isWaterWet = false;
 +		}
 +
  		if (shimmer) {
  			shimmerWet = true;
-+			LiquidLoader.OnPlayerCollision(LiquidID.Shimmer, this);
++			LiquidLoader.OnPlayerColliding(LiquidID.Shimmer, this);
 +			isWaterWet = false;
  			if (whoAmI == Main.myPlayer && !shimmerImmune && !shimmerUnstuckHelper.ShouldUnstuck) {
  				int num87 = (int)(base.Center.X / 16f);
@@ -4930,20 +4939,20 @@
  		if (flag27 && !shimmering) {
  			AddBuff(48, 1800);
  			honeyWet = true;
-+			LiquidLoader.OnPlayerCollision(LiquidID.Honey, this);
++			LiquidLoader.OnPlayerColliding(LiquidID.Honey, this);
 +			isWaterWet = false;
 +		}
 +
 +		for (int j = LiquidID.Count; j < LiquidLoader.LiquidCount; j++) {
 +			if (liquidsIn[j]) {
 +				wets[j] = true;
-+				LiquidLoader.OnPlayerCollision(j, this);
++				LiquidLoader.OnPlayerColliding(j, this);
 +				isWaterWet = false;
 +			}
 +		}
 +
 +		if (num86 && isWaterWet) {
-+			LiquidLoader.OnPlayerCollision(LiquidID.Water, this);
++			LiquidLoader.OnPlayerColliding(LiquidID.Water, this);
 +			wets[LiquidID.Water] = true;
  		}
  
@@ -6727,7 +6736,7 @@
  	{
  		bool result = false;
 -		if (targetTile.liquid > 0 && targetTile.lava()) {
-+		if (targetTile.liquid > 0 && LiquidLoader.BlocksTilePlacement(this, Player.tileTargetX, Player.tileTargetY, Main.tile[Player.tileTargetX, Player.tileTargetY].LiquidType)) {
++		if (targetTile.liquid > 0 && LiquidID.Sets.UseLavaPlacementRules[targetTile.liquidType()]) {
  			if (Main.tileSolid[createTile])
  				result = true;
  			else if (!TileObjectData.CheckLiquidPlacement(createTile, placeStyle, targetTile))
@@ -6739,7 +6748,7 @@
 +		while (Main.tile[num4, num3].active() && (Main.tileRope[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 314 || TileID.Sets.Platforms[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 380) && num3 < Main.maxTilesY - 5 && (flag || !Main.tile[num4, num3 + 1].lava())) {
 +		*/
 -			while (Main.tile[num4, num3].active() && (Main.tileRope[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 314 || TileID.Sets.Platforms[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 380) && num3 < Main.maxTilesY - 5 && (flag || !Main.tile[num4, num3 + 1].lava())) {
-+		while (Main.tile[num4, num3].active() && (Main.tileRope[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 314 || TileID.Sets.Platforms[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 380) && num3 < Main.maxTilesY - 5 && (flag || !LiquidLoader.BlocksTilePlacement(this, num3, num4, Main.tile[num4, num3 + 1].liquidType()))) {
++		while (Main.tile[num4, num3].active() && (Main.tileRope[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 314 || TileID.Sets.Platforms[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 380) && num3 < Main.maxTilesY - 5 && (flag || LiquidID.Sets.UseLavaPlacementRules[Main.tile[num4, num3 + 1].liquidType()])) {
 -				if (Main.tile[num4, num3].type == 314 || TileID.Sets.Platforms[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 380) {
 +			if (Main.tile[num4, num3].type == 314 || TileID.Sets.Platforms[Main.tile[num4, num3].type] || Main.tile[num4, num3].type == 380) {
  					num2++;

@@ -3149,7 +3149,7 @@
 -			if (Collision.honey)
 +			if (Collision.honey) {
  				honeyWet = true;
-+				LiquidLoader.OnNPCCollision(LiquidID.Honey, this);
++				LiquidLoader.OnNPCColliding(LiquidID.Honey, this);
 +				isWaterWet = false;
 +			}
  
@@ -3157,7 +3157,7 @@
  				shimmerWet = true;
  				if (Main.netMode != 1)
  					TryAddingRepeatedBuff(353, 100);
-+				LiquidLoader.OnNPCCollision(LiquidID.Shimmer, this);
++				LiquidLoader.OnNPCColliding(LiquidID.Shimmer, this);
 +				isWaterWet = false;
 +			}
 +
@@ -3165,14 +3165,14 @@
 +			for (int i = LiquidID.Count; i < LiquidLoader.LiquidCount; i++) {
 +				if (liquidsIn[i]) {
 +					wets[i] = true;
-+					LiquidLoader.OnNPCCollision(i, this);
++					LiquidLoader.OnNPCColliding(i, this);
 +					isWaterWet = false;
 +				}
 +			}
 +
 +			if (wet && isWaterWet && !lava) {
 +				wets[LiquidID.Water] = true;
-+				LiquidLoader.OnNPCCollision(LiquidID.Water, this);
++				LiquidLoader.OnNPCColliding(LiquidID.Water, this);
  			}
  		}
  
@@ -3241,7 +3241,7 @@
  
  		if (flag) {
  			lavaWet = true;
-+			LiquidLoader.OnNPCCollision(LiquidID.Lava, this);
++			LiquidLoader.OnNPCColliding(LiquidID.Lava, this);
  			if (!lavaImmune && !dontTakeDamage && Main.netMode != 1 && immune[255] == 0) {
  				immune[255] = 30;
  				if (Main.remixWorld && !friendly) {

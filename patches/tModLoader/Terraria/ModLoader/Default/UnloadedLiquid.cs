@@ -19,5 +19,5 @@ public class UnloadedLiquid : ModLiquid
 
 	public override bool PreMerge(int liquidX, int liquidY, int tileX, int tileY, int otherLiquid) => false; //prevents creating tiles
 
-	public override bool OnPump(int inX, int inY, int outX, int outY) => false; //prevents pumping
+	public override bool CanPump(int inX, int inY, int outX, int outY) => false; //prevents pumping
 }
