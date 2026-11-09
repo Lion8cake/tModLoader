@@ -81,18 +81,6 @@ public abstract class GlobalLiquid : ModType
 	}
 
 	/// <summary>
-	/// The ID of the waterfall/liquidfall style the game should use when the liquid is near a half block.
-	/// Returns null by default.
-	/// </summary>
-	/// <param name="i">The x position in tile coordinates.</param>
-	/// <param name="j">The y position in tile coordinates.</param>
-	/// <param name="type"></param>
-	public virtual int? ChooseWaterfallStyle(int i, int j, int type)
-	{
-		return null;
-	}
-
-	/// <summary>
 	/// Allows the changing of vanilla and modded liquid movement in-game as well as allowing you to do other stuff with liquids they update, return false if you don't want your liquid to you vanilla update behavior.
 	/// </summary>
 	/// <param name="i">The x position in tile coordinates.</param>

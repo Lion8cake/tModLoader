@@ -74,7 +74,6 @@ public static class LiquidLoader
 		ModLoader.BuildGlobalHook(ref HookPreDraw, globalLiquids, (GlobalLiquid g) => g.PreDraw);
 		ModLoader.BuildGlobalHook(ref HookPostDraw, globalLiquids, (GlobalLiquid g) => g.PostDraw);
 		ModLoader.BuildGlobalHook(ref HookEmitEffects, globalLiquids, (GlobalLiquid g) => g.EmitEffects);
-		ModLoader.BuildGlobalHook(ref HookDrawWaterfall, globalLiquids, (GlobalLiquid g) => g.ChooseWaterfallStyle);
 		ModLoader.BuildGlobalHook(ref HookPreUpdate, globalLiquids, (GlobalLiquid g) => g.PreUpdate);
 		ModLoader.BuildGlobalHook(ref HookEvaporation, globalLiquids, (GlobalLiquid g) => g.CanWaterEvaporateInUnderworld);
 		ModLoader.BuildGlobalHook(ref HookSettleLiquidMovement, globalLiquids, (GlobalLiquid g) => g.SettleLiquidMovement);
@@ -144,14 +143,8 @@ public static class LiquidLoader
 		return false;
 	}
 
-	private static Func<int, int, int, int?>[] HookDrawWaterfall;
-	public static int? DrawWaterfall(int i, int j, int type)
+	public static int? ChooseWaterfallStyle(int i, int j, int type)
 	{
-		foreach (var hook in HookDrawWaterfall) {
-			int? result = hook(i, j, type);
-			if (result != null)
-				return result;
-		}
 		return GetLiquid(type)?.ChooseWaterfallStyle(i, j) ?? null;
 	}
 

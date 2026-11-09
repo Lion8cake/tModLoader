@@ -63,7 +63,7 @@
  								waterfalls[currentMax].type = 0;
  
 +							if (liquidType >= LiquidID.Count) {
-+								int? waterfallStyle = LiquidLoader.DrawWaterfall(i, j, liquidType);
++								int? waterfallStyle = LiquidLoader.ChooseWaterfallStyle(i, j, liquidType);
 +								if (waterfallStyle != null)
 +									waterfalls[currentMax].type = (int)waterfallStyle;
 +							}
