@@ -73,7 +73,6 @@ public static class LiquidLoader
 		ModLoader.BuildGlobalHook(ref HookModifyLight, globalLiquids, (GlobalLiquid g) => g.ModifyLight);
 		ModLoader.BuildGlobalHook(ref HookPreDraw, globalLiquids, (GlobalLiquid g) => g.PreDraw);
 		ModLoader.BuildGlobalHook(ref HookPostDraw, globalLiquids, (GlobalLiquid g) => g.PostDraw);
-		ModLoader.BuildGlobalHook(ref HookEmitEffects, globalLiquids, (GlobalLiquid g) => g.EmitEffects);
 		ModLoader.BuildGlobalHook(ref HookPreUpdate, globalLiquids, (GlobalLiquid g) => g.PreUpdate);
 		ModLoader.BuildGlobalHook(ref HookEvaporation, globalLiquids, (GlobalLiquid g) => g.CanWaterEvaporateInUnderworld);
 		ModLoader.BuildGlobalHook(ref HookSettleLiquidMovement, globalLiquids, (GlobalLiquid g) => g.SettleLiquidMovement);
@@ -131,16 +130,10 @@ public static class LiquidLoader
 			hook(i, j, type, liquidDrawCache, drawOffset, isBackgroundDraw, waterStyle, globalAlpha);
 		}
 	}
-	private static Func<int, int, int, LiquidRenderer.LiquidCache, bool>[] HookEmitEffects;
-	public static bool EmitEffects(int i, int j, byte type, LiquidRenderer.LiquidCache liquidCache)
+
+	public static void EmitEffects(int i, int j, byte type, LiquidRenderer.LiquidCache liquidCache)
 	{
 		GetLiquid(type)?.EmitEffects(i, j, liquidCache);
-		foreach (var hook in HookEmitEffects) {
-			if (hook(i, j, type, liquidCache)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public static int? ChooseWaterfallStyle(int i, int j, int type)

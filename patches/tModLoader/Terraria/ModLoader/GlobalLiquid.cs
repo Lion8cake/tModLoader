@@ -52,20 +52,6 @@ public abstract class GlobalLiquid : ModType
 	}
 
 	/// <summary>
-	/// Allows you to make stuff happen whenever the liquid at the given coordinates is drawn. For example, creating bubble dusts or changing the color the liquid is drawn in. <para />
-	/// This hook is seperate from Liquid Rendering, Only use this for things such as spawning particles. <para />
-	/// Return false to stop Lava from spawning some of its bubbles. Returns true by default.
-	/// </summary>
-	/// <param name="i">The x position in tile coordinates.</param>
-	/// <param name="j">The y position in tile coordinates.</param>
-	/// <param name="type"></param>
-	/// <param name="liquidCache">Various information about the liquid that is being drawn, such as opacity, visual liquid, etc.</param>
-	public virtual bool EmitEffects(int i, int j, int type, LiquidCache liquidCache)
-	{
-		return true;
-	}
-
-	/// <summary>
 	/// Allows you to determine how much light this liquid emits.<br />
 	/// It can also let you light up the block in front of this liquid.<br />
 	/// See <see cref="TileLightScanner.ApplyLiquidLight(Tile, int, int, ref Vector3)" /> for vanilla tile light values to use as a reference.<br />
