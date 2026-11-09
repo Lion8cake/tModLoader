@@ -421,29 +421,14 @@
  				Lighting.GetCornerColors(num3, num4, out var vertices);
  				SetShimmerVertexColors(ref vertices, val, num3, num4);
  				Main.DrawTileInWater(drawOffset, num3, num4);
-@@ -608,6 +_,10 @@
+@@ -607,6 +_,10 @@
+ 					SetShimmerVertexColors_Sparkle(ref vertices, ptr2->Opacity, num3, num4, flag);
  					Main.tileBatch.Draw(_liquidTextures[num2].Value, new Vector2(num3 << 4, num4 << 4) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero);
  				}
- 
++
 +				LiquidLoader.PostDraw(num3, num4, ptr2->Type, *ptr2, drawOffset, isBackgroundDraw, 1, 0f);
 +				PostDraw:
 +				
-+
+ 
  				ptr2++;
  			}
- 		}
-@@ -731,6 +_,14 @@
- 			_waterfallFrameState %= 16f;
- 			_animationFrame = (int)_frameState;
- 			_waterfallAnimationFrame = (int)_waterfallFrameState;
-+
-+			for (int i = 0; i < Main.liquidFrameState.Length; i++) {
-+				if (!LiquidLoader.AnimateLiquid(i, gameTime, ref Main.liquidFrame[i], ref Main.liquidFrameState[i]))
-+					continue;
-+
-+				Main.liquidFrame[i] = _animationFrame;
-+				Main.liquidFrameState[i] = _frameState;
-+			}
- 		}
- 	}
- 
