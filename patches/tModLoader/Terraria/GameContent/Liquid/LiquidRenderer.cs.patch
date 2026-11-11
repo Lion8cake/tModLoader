@@ -333,7 +333,7 @@
  		}
  
  		if (this.WaveFilters != null)
-@@ -526,15 +_,23 @@
+@@ -526,15 +_,21 @@
  			LiquidDrawCache* ptr2 = ptr;
  			for (int i = drawArea.X; i < drawArea.X + drawArea.Width; i++) {
  				for (int j = drawArea.Y; j < drawArea.Y + drawArea.Height; j++) {
@@ -343,8 +343,6 @@
 +					*/
 +					if (ptr2->IsVisible && ptr2->Type != LiquidID.Shimmer) {
  						Main.tileBatch.SetLayer(0u, 0);
-+						if (!LiquidLoader.PreDraw(i, j, ptr2->Type, *ptr2, drawOffset, isBackgroundDraw, waterStyle, globalAlpha))
-+							goto PostDraw;
 +
  						Rectangle sourceRectangle = ptr2->SourceRectangle;
  						if (ptr2->IsSurfaceLiquid)
@@ -358,7 +356,7 @@
  
  						Vector2 liquidOffset = ptr2->LiquidOffset;
  						float num = ptr2->Opacity * (isBackgroundDraw ? 1f : DEFAULT_OPACITY[ptr2->Type]);
-@@ -559,7 +_,12 @@
+@@ -559,7 +_,9 @@
  						vertices.TopLeftColor *= num;
  						vertices.TopRightColor *= num;
  						Main.DrawTileInWater(drawOffset, i, j);
@@ -366,13 +364,10 @@
 -						Main.tileBatch.Draw(_liquidTextures[num2].Value, new Vector2(i << 4, j << 4) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero);
 +						/*Main.tileBatch.Draw(_liquidTextures[num2].Value, new Vector2(i << 4, j << 4) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero);*/
 +						Main.tileBatch.Draw(texture.Value, new Vector2(i << 4, j << 4) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero);
-+
-+						PostDraw:;
-+						LiquidLoader.PostDraw(i, j, ptr2->Type, *ptr2, drawOffset, isBackgroundDraw, waterStyle, globalAlpha);
  					}
  
  					ptr2++;
-@@ -575,26 +_,47 @@
+@@ -575,26 +_,44 @@
  	{
  		Rectangle drawArea = _drawArea;
  		Main.tileBatch.Restart();
@@ -397,9 +392,6 @@
 +					ptr2++;
 +					continue;
 +				}
-+
-+				if (!LiquidLoader.PreDraw(num3, num4, ptr2->Type, *ptr2, drawOffset, isBackgroundDraw, 1, 0f))
-+					goto PostDraw;
  
  				Main.tileBatch.SetLayer(0u, 0);
  				Rectangle sourceRectangle = ptr2->SourceRectangle;
@@ -421,14 +413,11 @@
  				Lighting.GetCornerColors(num3, num4, out var vertices);
  				SetShimmerVertexColors(ref vertices, val, num3, num4);
  				Main.DrawTileInWater(drawOffset, num3, num4);
-@@ -607,6 +_,10 @@
+@@ -607,6 +_,7 @@
  					SetShimmerVertexColors_Sparkle(ref vertices, ptr2->Opacity, num3, num4, flag);
  					Main.tileBatch.Draw(_liquidTextures[num2].Value, new Vector2(num3 << 4, num4 << 4) + drawOffset + liquidOffset, sourceRectangle, vertices, Vector2.Zero);
  				}
-+
-+				LiquidLoader.PostDraw(num3, num4, ptr2->Type, *ptr2, drawOffset, isBackgroundDraw, 1, 0f);
-+				PostDraw:
-+				
++				// Check here
  
  				ptr2++;
  			}

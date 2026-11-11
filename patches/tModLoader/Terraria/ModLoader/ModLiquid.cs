@@ -241,18 +241,4 @@ public abstract class ModLiquid : ModBlockType
 	{
 		return true;
 	}
-
-	/// <summary>
-	/// Allows you to draw things in front of the liquid at the given coordinates. This can also be used to do things such as rendering glowmasks. It is important to use Main.tileBatch for drawing operation here.<para />
-	/// This hook is called regardless if <see cref="PreDraw" /> returns true or false.<para />
-	/// This method is only called in "Color" and "White" lighting modes. Use <see cref="PostRetroDraw" /> for the other Lighting modes post drawing
-	/// </summary>
-	/// <param name="i">The x position in tile coordinates.</param>
-	/// <param name="j">The y position in tile coordinates.</param>
-	/// <param name="liquidDrawCache">The LiquidDrawCache of the rendering</param>
-	/// <param name="drawOffset">The amount the liquid rendered is offset by</param>
-	/// <param name="isBackgroundDraw">Whether or not the liquid is in the background</param>
-	public virtual void PostDraw(int i, int j, LiquidDrawCache liquidDrawCache, Vector2 drawOffset, bool isBackgroundDraw)
-	{
-	}
 }
